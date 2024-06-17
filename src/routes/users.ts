@@ -54,4 +54,14 @@ router.post("/", validateUser, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", isAdminOrSelf, async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    const deletedUser = await usersService.deleteUser(userId);
+    res.json({ message: "User deleted successfully", user: deletedUser });
+  } catch (e) {
+    next(e);
+  }
+});
+
 export default router;

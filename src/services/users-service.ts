@@ -43,4 +43,10 @@ export const usersService = {
   getAllUsers: async () => User.find({}, { password: 0 }),
 
   getUserById: async (id: string) => User.findById(id, { password: 0 }),
+
+  deleteUser: async (id: string) => {
+    const user = await User.findByIdAndDelete(id);
+    if (!user) throw new Error("User not found");
+    return user;
+  },
 };
