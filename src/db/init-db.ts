@@ -15,6 +15,7 @@ const initDB = async () => {
       Logger.verbose(saved);
     }
     //TODO: card must have a user id
+    
   } catch (e) {
     Logger.log(e);
   }
