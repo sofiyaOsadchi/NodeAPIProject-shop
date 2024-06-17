@@ -1,0 +1,37 @@
+{
+  "type": "commonjs",
+  "name": "lec5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "chalk": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.13.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.0",
+    "morgan": "^1.10.0",
+    "underscore": "1.13.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.12.12",
+    "@types/underscore": "^1.11.15",
+    "tsx": "^4.10.3",
+    "typescript": "^5.4.5"
+  }
+}

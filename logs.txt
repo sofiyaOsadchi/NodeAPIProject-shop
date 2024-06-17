@@ -1,0 +1,4 @@
+hi
+Database Connected
+DB_CONNECTION_STRING is not defined in your .env file
+hi
