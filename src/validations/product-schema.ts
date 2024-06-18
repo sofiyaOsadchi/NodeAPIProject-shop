@@ -1,16 +1,13 @@
 import Joi from "joi";
-import { ICardInput } from "../@types/@types";
+import { IProductInput } from "../@types/@types";
 import { phoneRegex } from "./patterns";
 import { addressSchema, imageSchema } from "./user-schema";
 
-const cardSchema = Joi.object<ICardInput>({
+const cardSchema = Joi.object<IProductInput>({
   title: Joi.string().min(2).max(256).required(),
   subtitle: Joi.string().min(2).max(256).required(),
   description: Joi.string().min(2).max(1024).required(),
-  email: Joi.string().email().min(5).max(30).required(),
-  phone: Joi.string().pattern(phoneRegex).min(9).max(11).required(),
-  web: Joi.string().uri().min(14).max(100),
-  address: addressSchema,
+  price: Joi.string().min(1).max(11).required(),
   image: imageSchema,
 });
 

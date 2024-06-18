@@ -50,22 +50,18 @@ export type IJWTPayload = {
 }
 
 
-export type ICardInput = {
+export type IProductInput = {
   title: string;
   subtitle: string;
   description: string;
-  phone: string;
-  email: string;
-  web: string;
+  price: string;
   image: IImage;
-  address: IAddress
 };
 
-export type ICard = ICardInput & {
+export type IProduct = IProductInput & {
   _id: string, 
-  bizNumber: number,
+  barcode: number,
   createdAt: Date,
-  likes: string[],
   favorites: string[];
   userId: string
 };

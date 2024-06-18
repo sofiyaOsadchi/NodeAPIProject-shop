@@ -2,10 +2,10 @@
 import { IUser } from "../@types/@types";
 import { Logger } from "../logs/logger";
 import { usersService } from "../services/users-service";
-import { cardService } from "../services/card-service";
-import { users, cards } from "./initial-data";
+import { productService } from "../services/product-service";
+import { users, products } from "./initial-data";
 import User from "../db/models/user-model";
-import Card from "../db/models/card-model";
+import Card from "./models/product-model";
 
 const initDB = async () => {
   try {
@@ -38,14 +38,14 @@ const initDB = async () => {
     }
     const userId = user._id.toString();
 
-    for (let c of cards) {
-      const existingCard = await Card.findOne({ title: c.title });
+    for (let p of products) {
+      const existingCard = await Card.findOne({ title: p.title });
       if (!existingCard) {
-        const cardData = { ...c, userId }; // הוספת מזהה המשתמש לכרטיס
-        const savedCard = await cardService.createCard(cardData, userId);
-        Logger.verbose(`Card created: ${savedCard.title}`);
+        const productData = { ...p, userId }; // הוספת מזהה המשתמש לכרטיס
+        const savedProduct = await productService.createProduct(productData, userId);
+        Logger.verbose(`Product created: ${savedProduct.title}`);
       } else {
-        Logger.log(`Card already exists: ${existingCard.title}`);
+        Logger.log(`Product already exists: ${existingCard.title}`);
       }
     }
 

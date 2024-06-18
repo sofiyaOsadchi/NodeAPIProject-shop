@@ -6,7 +6,7 @@ import connect from "./db/connection";
 import configDevEnv from "../config";
 import errorHandler from "./middleware/error-handler";
 import morgan from "morgan";
-import { cardRouter } from "./routes/cards";
+import { productRouter } from "./routes/products";
 import { Logger } from "./logs/logger";
 configDevEnv();
 connect();
@@ -21,7 +21,7 @@ app.use(morgan("dev"));
 app.use(cors({ origin: ["http://localhost:5173", "http://localhost:5172"] }));
 //http://localhost:8080/api/v1/users
 app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/cards", cardRouter);
+app.use("/api/v1/products", productRouter);
 app.use(express.static("public"));
 app.use(errorHandler);
 app.use(notFound);

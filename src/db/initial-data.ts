@@ -60,46 +60,26 @@ const users = [
   },
 
 ];
-const cards = [
+const products = [
   {
     title: "a wonderful new card",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    phone: "050-3211234",
-    email: "qwe@gmail.com",
-    web: "https://www.bing.com",
+    price: "100",
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
       alt: "image of something",
     },
-    address: {
-      state: "IL",
-      country: "Israel",
-      city: "Tel aviv",
-      street: "Shoham",
-      houseNumber: 5,
-      zip: "8920435",
-    },
   },
-  
+
   {
     title: "a wonderful new card vs2",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    phone: "050-2221234",
-    email: "qwevs2@gmail.com",
-    web: "https://www.bing.com",
+    price: "222",
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
       alt: "image of something",
-    },
-    address: {
-      state: "IL",
-      country: "Israel",
-      city: "Tel aviv",
-      street: "Shoham",
-      houseNumber: 5,
-      zip: "8920435",
     },
   },
 
@@ -107,23 +87,13 @@ const cards = [
     title: "a wonderful new card vs3",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    phone: "050-3331234",
-    email: "qwevs3@gmail.com",
-    web: "https://www.bing.com",
+    price: "33333333333",
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
       alt: "image of something",
-    },
-    address: {
-      state: "IL",
-      country: "Israel",
-      city: "Tel aviv",
-      street: "Shoham",
-      houseNumber: 5,
-      zip: "8920435",
     },
   },
 
 
 ];
-export { users , cards};
+export { users , products};

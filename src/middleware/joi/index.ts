@@ -1,4 +1,4 @@
-import cardSchema from "../../validations/card-schema";
+import cardSchema from "../../validations/product-schema";
 import loginSchema from "../../validations/login-schema";
 import userSchema from "../../validations/user-schema";
 import { validateSchema } from "./validate-schema";

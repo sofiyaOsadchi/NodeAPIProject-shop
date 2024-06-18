@@ -1,6 +1,6 @@
 import _ from "underscore";
-import {ICardInput } from "../@types/@types";
-import Card from "../db/models/card-model";
+import { IProductInput } from "../@types/@types";
+import Card from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 
 const generateBizNumber = async () => {
@@ -14,25 +14,25 @@ const generateBizNumber = async () => {
   }
 };
 
-export const cardService = {
-  createCard: async (data: ICardInput, userId: string) => {
+export const productService = {
+  createProduct: async (data: IProductInput, userId: string) => {
     //userId is extracted from the JWT
-    const card = new Card(data);
+    const product = new Card(data);
     //assign user id to the card:
-    card.userId = userId;
+    product.userId = userId;
     //generate biz number to the card:
-    card.bizNumber = await generateBizNumber();
+    product.barcode = await generateBizNumber();
 
-    Logger.log(card.bizNumber);
+    Logger.log(product.barcode);
 
-    return card.save();
+    return product.save();
   },
 
   getCards: async () => Card.find(),
 
-  getCard: async (id:string) => Card.findById(id),
-  
-  getCardByUserId: async (userId:string) => Card.find({userId: userId}),
+  getCard: async (id: string) => Card.findById(id),
+
+  getCardByUserId: async (userId: string) => Card.find({ userId: userId }),
 
   getCardById: async (id: string) => Card.findById(id),
 
@@ -50,7 +50,7 @@ export const cardService = {
     return card;
   },
 
-  updateCard: async (id: string, data: ICardInput, userId: string) => {
+  updateCard: async (id: string, data: IProductInput, userId: string) => {
     const card = await Card.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
     if (!card) throw new Error("Card not found or user unauthorized to update this card");
     return card;
@@ -61,7 +61,7 @@ export const cardService = {
     if (!card) throw new Error("Card not found or user unauthorized to delete this card");
     return card;
   },
-  
+
 };
 
 
