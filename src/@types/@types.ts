@@ -54,7 +54,7 @@ export type IProductInput = {
   title: string;
   subtitle: string;
   description: string;
-  price: string;
+  price: number;
   image: IImage;
 };
 
@@ -62,6 +62,8 @@ export type IProduct = IProductInput & {
   _id: string, 
   barcode: number,
   createdAt: Date,
-  favorites: string[];
+  shoppingCart: string[];
+  quantity: number;
+  sold: number;
   userId: string
 };

@@ -75,12 +75,12 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.patch("/:id/favorite", validateToken, async (req, res, next) => {
+router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
   try {
     const userId = req.payload._id;
-    const cardId = req.params.id;
-    const card = await productService.toggleFavorite(userId, cardId);
-    res.json(card);
+    const productId = req.params.id;
+    const product = await productService.toggleShoppingCart(userId, productId);
+    res.json(product);
   } catch (e) {
     next(e);
   }

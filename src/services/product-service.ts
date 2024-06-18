@@ -34,18 +34,19 @@ export const productService = {
 
   getProductById: async (id: string) => Product.findById(id),
 
-  toggleFavorite: async (userId: string, cardId: string) => {
-    const card = await Product.findById(cardId);
-    if (!card) throw new Error("Card not found");
 
-    const isFavorite = card.favorites.includes(userId);
+  toggleShoppingCart: async (userId: string, productId: string) => {
+    const product = await Product.findById(productId);
+    if (!product) throw new Error("Product not found");
+
+    const isFavorite = product.shoppingCart.includes(userId);
     if (isFavorite) {
-      card.favorites = card.favorites.filter(fav => fav.toString() !== userId);
+      product.shoppingCart = product.shoppingCart.filter(fav => fav.toString() !== userId);
     } else {
-      card.favorites.push(userId);
+      product.shoppingCart.push(userId);
     }
-    await card.save();
-    return card;
+    await product.save();
+    return product;
   },
 
   updateProduct: async (id: string, data: IProductInput, userId: string) => {

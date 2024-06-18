@@ -65,7 +65,9 @@ const products = [
     title: "a wonderful new card",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    price: "100",
+    price: 111,
+    quantity: 3,
+    sold: 0,
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
       alt: "image of something",
@@ -76,7 +78,9 @@ const products = [
     title: "a wonderful new card vs2",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    price: "222",
+    price: 222,
+    quantity: 4,
+    sold: 0,
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
       alt: "image of something",
@@ -87,7 +91,9 @@ const products = [
     title: "a wonderful new card vs3",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    price: "33333333333",
+    price: 333,
+    quantity: 5,
+    sold: 0,
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
       alt: "image of something",
