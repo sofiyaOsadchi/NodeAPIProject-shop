@@ -5,4 +5,4 @@ import { validateSchema } from "./validate-schema";
 
 export const validateUser = validateSchema(userSchema);
 export const validateLogin = validateSchema(loginSchema);
-export const validateCard = validateSchema(cardSchema);
+export const validateProduct = validateSchema(cardSchema);

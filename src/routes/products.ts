@@ -1,21 +1,21 @@
 import { Router } from "express";
-import { validateCard } from "../middleware/joi";
+import { validateProduct } from "../middleware/joi";
 import {  productService } from "../services/product-service";
 import { isBusiness } from "../middleware/is-business";
 import BizCardsError from "../errors/BizCardsError";
 import { validateToken } from "../middleware/validate-token";
-import { isCardOwnerOrAdmin } from "../middleware/is-owner-or-admin";
+import { isProductOwnerOrAdmin } from "../middleware/is-owner-or-admin";
 
 
 const router = Router();
 
-router.delete("/:id", isCardOwnerOrAdmin, async (req, res, next) => {
+router.delete("/:id", isProductOwnerOrAdmin, async (req, res, next) => {
   try {
     const userId = req.payload._id;
-    const cardId = req.params.id;
+    const productId = req.params.id;
 
-    const deletedCard = await productService.deleteCard(cardId, userId);
-    res.json({ message: "Product deleted successfully", card: deletedCard });
+    const deletedProduct = await productService.deleteProduct(productId, userId);
+    res.json({ message: "Product deleted successfully", product: deletedProduct });
   } catch (e) {
     next(e);
   }
@@ -24,11 +24,11 @@ router.delete("/:id", isCardOwnerOrAdmin, async (req, res, next) => {
 router.put("/:id", validateToken, async (req, res, next) => {
   try {
     const userId = req.payload._id;
-    const cardId = req.params.id;
-    const cardData = req.body;
+    const productId = req.params.id;
+    const productData = req.body;
 
-    const updatedCard = await productService.updateCard(cardId, cardData, userId);
-    res.json(updatedCard);
+    const updatedProduct = await productService.updateProduct(productId, productData, userId);
+    res.json(updatedProduct);
   } catch (e) {
     next(e);
   }
@@ -36,13 +36,15 @@ router.put("/:id", validateToken, async (req, res, next) => {
 
 router.get("/my-products", validateToken, async (req, res, next) => {
   try {
-    const cards = await productService.getCardByUserId(req.payload._id);
-    res.json(cards);
+    const products = await productService.getProductByUserId(req.payload._id);
+    res.json(products);
   } catch (e) {
     next(e);
   }
 });
-router.post("/", ...isBusiness, validateCard, async (req, res, next) => {
+
+
+router.post("/", ...isBusiness, validateProduct, async (req, res, next) => {
   try {
     const result = await productService.createProduct(req.body, req.payload._id);
     res.status(201).json(result);
@@ -53,8 +55,8 @@ router.post("/", ...isBusiness, validateCard, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const cards = await productService.getCards();
-    res.json(cards);
+    const products = await productService.getProducts();
+    res.json(products);
   } catch (e) {
     next(e);
   }
@@ -62,13 +64,12 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const card = await productService.getCard(req.params.id);
+    const product = await productService.getProduct(req.params.id);
 
-    if (!card) {
-      throw new BizCardsError(400, "No such card id");
-      //return next(new BizCardsError(400, "No such card id"));
+    if (!product) {
+      throw new BizCardsError(400, "No such product id");
     }
-    res.json(card);
+    res.json(product);
   } catch (e) {
     next(e);
   }

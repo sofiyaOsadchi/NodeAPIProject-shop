@@ -1,13 +1,13 @@
 import _ from "underscore";
 import { IProductInput } from "../@types/@types";
-import Card from "../db/models/product-model";
+import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 
 const generateBizNumber = async () => {
   //generate random bizNumber:
   while (true) {
     const r = _.random(1_000_000, 9_999_999);
-    const dbRes = await Card.findOne({ bizNumber: r });
+    const dbRes = await Product.findOne({ bizNumber: r });
     if (!dbRes) {
       return r;
     }
@@ -17,10 +17,8 @@ const generateBizNumber = async () => {
 export const productService = {
   createProduct: async (data: IProductInput, userId: string) => {
     //userId is extracted from the JWT
-    const product = new Card(data);
-    //assign user id to the card:
+    const product = new Product(data);
     product.userId = userId;
-    //generate biz number to the card:
     product.barcode = await generateBizNumber();
 
     Logger.log(product.barcode);
@@ -28,16 +26,16 @@ export const productService = {
     return product.save();
   },
 
-  getCards: async () => Card.find(),
+  getProducts: async () => Product.find(),
 
-  getCard: async (id: string) => Card.findById(id),
+  getProduct: async (id: string) => Product.findById(id),
 
-  getCardByUserId: async (userId: string) => Card.find({ userId: userId }),
+  getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
-  getCardById: async (id: string) => Card.findById(id),
+  getProductById: async (id: string) => Product.findById(id),
 
   toggleFavorite: async (userId: string, cardId: string) => {
-    const card = await Card.findById(cardId);
+    const card = await Product.findById(cardId);
     if (!card) throw new Error("Card not found");
 
     const isFavorite = card.favorites.includes(userId);
@@ -50,18 +48,18 @@ export const productService = {
     return card;
   },
 
-  updateCard: async (id: string, data: IProductInput, userId: string) => {
-    const card = await Card.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
-    if (!card) throw new Error("Card not found or user unauthorized to update this card");
-    return card;
+  updateProduct: async (id: string, data: IProductInput, userId: string) => {
+    const product = await Product.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
+    if (!product) throw new Error("Product not found or user unauthorized to update this product");
+    return product;
   },
 
-  deleteCard: async (id: string, userId: string) => {
-    const card = await Card.findOneAndDelete({ _id: id, $or: [{ userId: userId }, { isAdmin: true }] });
-    if (!card) throw new Error("Card not found or user unauthorized to delete this card");
-    return card;
+  deleteProduct: async (id: string, userId: string) => {
+    const product = await Product.findOneAndDelete({ _id: id, $or: [{ userId: userId }, { isAdmin: true }] });
+    if (!product) throw new Error("Product not found or user unauthorized to delete this product");
+    return product;
   },
-
 };
+
 
 

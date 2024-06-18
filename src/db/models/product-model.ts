@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import cardSchema from "../schemas/product-schema";
+import productSchema from "../schemas/product-schema";
 
-const Card = mongoose.model("Card", cardSchema);
+const Product = mongoose.model("Product", productSchema);
 
-export default Card;
+export default Product;

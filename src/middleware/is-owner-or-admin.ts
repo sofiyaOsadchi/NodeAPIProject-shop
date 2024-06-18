@@ -1,11 +1,11 @@
 import { RequestHandler } from "express";
 import { validateToken } from "./validate-token";
 import BizCardsError from "../errors/BizCardsError";
-import { cardService } from "../services/product-service";
+import { productService } from "../services/product-service";
 
 
-const _isCardOwnerOrAdmin: RequestHandler = async (req, _, next) => {
-    const card = await cardService.getCardById(req.params.id);
+const _isProductOwnerOrAdmin: RequestHandler = async (req, _, next) => {
+    const card = await productService.getProductById(req.params.id);
     const userId = req.payload._id;
 
     if (card.userId === userId || req.payload?.isAdmin) {
@@ -18,4 +18,4 @@ const _isCardOwnerOrAdmin: RequestHandler = async (req, _, next) => {
     console.log(card.userId, userId);
 };
 
-export const isCardOwnerOrAdmin = [validateToken, _isCardOwnerOrAdmin];
+export const isProductOwnerOrAdmin = [validateToken, _isProductOwnerOrAdmin];

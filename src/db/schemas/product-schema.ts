@@ -3,7 +3,7 @@ import { IProduct } from "../../@types/@types";
 import addressSchema from "./address-schema";
 import imageSchema from "./image-schema";
 
-const cardSchema = new Schema<IProduct>({
+const productSchema = new Schema<IProduct>({
   title: { type: String, required: true, minlength: 2, maxlength: 256 },
   subtitle: { type: String, required: true, minlength: 2, maxlength: 256 },
   description: { type: String, required: true, minlength: 2, maxlength: 1024 },
@@ -17,4 +17,4 @@ const cardSchema = new Schema<IProduct>({
   barcode: { type: Number, required: true, min: 1_000_000, max: 9_999_999 },
 });
 
-export default cardSchema;
+export default productSchema;
