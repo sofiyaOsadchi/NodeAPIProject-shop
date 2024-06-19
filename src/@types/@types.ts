@@ -1,6 +1,4 @@
-export type Cat = {
-  name: string;
-};
+
 
 export type IName = {
   first: string;
@@ -39,16 +37,14 @@ export type IUser = IUserInput & {
 
 export type ILogin = {
   email: string;
-  password: string
+  password: string;
 };
 
-
 export type IJWTPayload = {
-  _id: string, 
-  isAdmin: boolean,
-  isBusiness: boolean
-}
-
+  _id: string;
+  isAdmin: boolean;
+  isBusiness: boolean;
+};
 
 export type IProductInput = {
   title: string;
@@ -59,11 +55,24 @@ export type IProductInput = {
 };
 
 export type IProduct = IProductInput & {
-  _id: string, 
-  barcode: number,
-  createdAt: Date,
+  _id: string;
+  barcode: number;
+  createdAt: Date;
   shoppingCart: string[];
   quantity: number;
   sold: number;
-  userId: string
+  userId: string;
+};
+
+export type IOrderProduct = {
+  productId: string;
+  quantity: number;
+};
+
+export type IOrder = {
+  userId: string;
+  products: IOrderProduct[];
+  totalAmount: number;
+  status: string;
+  createdAt: Date;
 };
