@@ -36,4 +36,19 @@ router.get("/user/:userId", validateToken, async (req, res, next) => {
     }
 });
 
+router.get("/status", validateToken, async (req, res, next) => {
+    try {
+        const statuses = await orderService.getOrderStatus();
+        console.log("Fetched order statuses:", statuses); // הדפסת התוצאות
+        res.json(statuses);
+    } catch (e) {
+        console.error("Error fetching order statuses:", e.message); // הדפסת השגיאה לטרמינל
+        next(e);
+    }
+});
+
+
+
+
+
 export { router as orderRouter };

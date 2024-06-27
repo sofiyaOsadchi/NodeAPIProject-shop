@@ -49,4 +49,19 @@ export const orderService = {
     getOrdersByUser: async (userId: string) => {
         return Order.find({ userId }).populate("products.productId");
     },
+
+    getOrderStatus: async () => {
+        const orders = await Order.find({}, { status: 1 }); // נביא רק את השדה status
+        console.log("Orders statuses:", orders);
+
+        const statuses = await Order.aggregate([
+            { $group: { _id: "$status", count: { $sum: 1 } } }
+        ]);
+
+        console.log("Grouped statuses:", statuses);
+        return statuses;
+    },
+
+
+
 };
