@@ -39,14 +39,14 @@ router.get("/inventory",  ...isAdmin, async (req, res, next) => {
     }
 });
 
-router.get("/total-sold", ...isAdmin, async (req, res, next) => {
+/* router.get("/total-sold", ...isAdmin, async (req, res, next) => {
     try {
         const totalSold = await analyticsService.getTotalSold();
         res.json({ totalSold });
     } catch (e) {
         next(e);
     }
-});
+}); */
 
 router.get("/product-sales/:id", ...isAdmin, async (req, res, next) => {
     try {
@@ -74,6 +74,15 @@ router.patch("/status/:orderId", ...isAdmin, async (req, res, next) => {
 
         const updatedOrder = await analyticsService.updateOrderStatus(orderId, status);
         res.json(updatedOrder);
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.get("/products/top-selling", ...isAdmin, async (req, res, next) => {
+    try {
+        const topSellingProducts = await analyticsService.getTopSellingProducts();
+        res.json(topSellingProducts);
     } catch (e) {
         next(e);
     }

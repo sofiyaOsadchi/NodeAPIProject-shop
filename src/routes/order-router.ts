@@ -18,7 +18,7 @@ router.post("/", validateToken, async (req, res, next) => {
     }
 });
 
-router.get("/:id", validateToken, async (req, res, next) => {
+router.get("/:id", ...isAdmin, async (req, res, next) => {
     try {
         const orderId = req.params.id;
         const order = await orderService.getOrder(orderId);

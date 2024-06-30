@@ -1,8 +1,11 @@
 import Product from "../db/models/product-model";
 import Order from "../db/models/order-model";
 import { IOrderProduct } from "../@types/@types";
+import BizCardsError from "../errors/BizCardsError";
 
 export const analyticsService = {
+
+
     getInventory: async () => {
         const products = await Product.find();
         return products.map(product => ({
@@ -85,14 +88,24 @@ export const analyticsService = {
         };
     },
 
-    getTotalSold: async () => {
+   /*  getTotalSold: async () => {
         const products = await Product.find();
         return products.reduce((acc, product) => acc + product.sold, 0);
+    }, */
+
+    getTopSellingProducts: async () => {
+        const products = await Product.find().sort({ sold: -1 }).limit(10);
+        return products.map(product => ({
+            title: product.title,
+            sold: product.sold,
+            price: product.price,
+            totalRevenue: product.sold * product.price  // חישוב סך ההכנסות
+        }));
     },
 
     getProductSales: async (productId: string) => {
         const product = await Product.findById(productId);
-        if (!product) throw new Error("Product not found");
+        if (!product) throw new BizCardsError(404, "Product not found");
         return {
             title: product.title,
             sold: product.sold,
@@ -115,12 +128,12 @@ export const analyticsService = {
     updateOrderStatus: async (orderId: string, status: string) => {
         const validStatuses = ["pending", "approved", "processing", "shipped", "delivered", "cancelled", "returned", "completed"];
         if (!validStatuses.includes(status)) {
-            throw new Error("Invalid status");
+            throw new BizCardsError(404, "Invalid status");
         }
 
         const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
         if (!order) {
-            throw new Error("Order not found");
+            throw new BizCardsError(404, "Order not found");
         }
 
         return order;

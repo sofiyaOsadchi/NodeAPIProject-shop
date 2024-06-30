@@ -5,11 +5,13 @@ import { isBusiness } from "../middleware/is-business";
 import BizCardsError from "../errors/BizCardsError";
 import { validateToken } from "../middleware/validate-token";
 import { isProductOwnerOrAdmin } from "../middleware/is-owner-or-admin";
+import { isAdmin } from "../middleware/is-admin";
+import isProductId from "../middleware/is-product-Id";
 
 
 const router = Router();
 
-router.delete("/:id", isProductOwnerOrAdmin, async (req, res, next) => {
+router.delete("/:id", ...isAdmin, async (req, res, next) => {
   try {
     const userId = req.payload._id;
     const productId = req.params.id;
@@ -21,7 +23,7 @@ router.delete("/:id", isProductOwnerOrAdmin, async (req, res, next) => {
   }
 });
 
-router.put("/:id", validateToken, async (req, res, next) => {
+router.put("/:id", ...isAdmin, async (req, res, next) => {
   try {
     const userId = req.payload._id;
     const productId = req.params.id;
@@ -34,14 +36,16 @@ router.put("/:id", validateToken, async (req, res, next) => {
   }
 });
 
-router.get("/my-products", validateToken, async (req, res, next) => {
+
+/* router.get("/my-products", validateToken, async (req, res, next) => {
   try {
     const products = await productService.getProductByUserId(req.payload._id);
     res.json(products);
   } catch (e) {
     next(e);
   }
-});
+}); */
+  
 
 
 router.post("/", ...isBusiness, validateProduct, async (req, res, next) => {
@@ -62,13 +66,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isProductId, async (req, res, next) => {
   try {
     const product = await productService.getProduct(req.params.id);
-
-    if (!product) {
-      throw new BizCardsError(400, "No such product id");
-    }
     res.json(product);
   } catch (e) {
     next(e);
