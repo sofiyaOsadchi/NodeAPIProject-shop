@@ -2,6 +2,7 @@ import { Router } from "express";
 import { orderService } from "../services/order-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
+import { isAdminOrSelfUser } from "../middleware/is-admin-or-self-user";
 
 const router = Router();
 
@@ -27,7 +28,8 @@ router.get("/:id", validateToken, async (req, res, next) => {
     }
 });
 
-router.get("/user/:userId", validateToken, async (req, res, next) => {
+
+router.get("/user/:userId", isAdminOrSelfUser, async (req, res, next) => {
     try {
         const userId = req.params.userId;
         const orders = await orderService.getOrdersByUser(userId);
