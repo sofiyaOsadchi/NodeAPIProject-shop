@@ -75,4 +75,10 @@ export type IOrder = {
   totalAmount: number;
   status: string;
   createdAt: Date;
+  orderNumber: string;
 };
+
+export interface SalesByDateQuery {
+  startDate: string;
+  endDate: string;
+}

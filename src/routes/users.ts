@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { usersService } from "../services/users-service";
-import { validateCard, validateLogin, validateUser } from "../middleware/joi";
+import { validateProduct, validateLogin, validateUser } from "../middleware/joi";
 import { isAdmin } from "../middleware/is-admin";
 import { isAdminOrSelf } from "../middleware/is-admin-or-self";
 import { isSelf } from "../middleware/is-self";

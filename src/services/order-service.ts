@@ -40,6 +40,31 @@ export const orderService = {
         }
     },
 
+
+    cancelOrder: async (orderId: string) => {
+        const order = await Order.findById(orderId);
+        if (!order) throw new Error("Order not found");
+
+        if (order.status === "cancelled") {
+            throw new Error("Order is already cancelled");
+        }
+
+        // Return the stock
+        for (const product of order.products) {
+            const productDetails = await Product.findById(product.productId);
+            if (productDetails) {
+                productDetails.quantity += product.quantity;
+                productDetails.sold -= product.quantity;
+                await productDetails.save();
+            }
+        }
+
+        order.status = "cancelled";
+        return await order.save();
+    },
+
+
+
     getOrder: async (orderId: string) => {
         const order = await Order.findById(orderId).populate("products.productId");
         if (!order) throw new Error("Order not found");
@@ -48,18 +73,6 @@ export const orderService = {
 
     getOrdersByUser: async (userId: string) => {
         return Order.find({ userId }).populate("products.productId");
-    },
-
-    getOrderStatus: async () => {
-        const orders = await Order.find({}, { status: 1 }); // נביא רק את השדה status
-        console.log("Orders statuses:", orders);
-
-        const statuses = await Order.aggregate([
-            { $group: { _id: "$status", count: { $sum: 1 } } }
-        ]);
-
-        console.log("Grouped statuses:", statuses);
-        return statuses;
     },
 
 
