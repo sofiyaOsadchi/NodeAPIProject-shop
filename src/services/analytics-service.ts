@@ -34,19 +34,54 @@ export const analyticsService = {
         },
 
     getSalesByDate: async (startDate: Date, endDate: Date) => {
-        const orders = await Order.find({
-            createdAt: {
-                $gte: startDate,
-                $lte: endDate,
-            },
-        }).populate("userId").populate("products.productId");
+        // הוספת יום אחד לתאריך הסיום כדי לכלול את כל היום הנוכחי
+        const adjustedEndDate = new Date(endDate);
+        adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
 
-        const totalRevenue = orders.reduce((acc, order) => acc + order.totalAmount, 0);
-        const totalOrders = orders.length;
+        const salesByDate = await Order.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(startDate), // תאריך התחלה
+                        $lte: adjustedEndDate,   // תאריך סיום כולל את כל היום הנוכחי
+                    },
+                    status: { $ne: "cancelled" } // לא כולל הזמנות מבוטלות
+                },
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, // קיבוץ לפי יום
+                    totalAmount: { $sum: "$totalAmount" }, // סכום כל הכסף שנכנס
+                    totalSales: { $sum: 1 }, // סך כל המכירות
+                },
+            },
+            {
+                $sort: { _id: 1 }, // מיון לפי תאריך עולה
+            },
+        ]);
+
+        const overallSales = await Order.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(startDate), // תאריך התחלה
+                        $lte: adjustedEndDate,   // תאריך סיום כולל את כל היום הנוכחי
+                    },
+                    status: { $ne: "cancelled" } // לא כולל הזמנות מבוטלות
+                },
+            },
+            {
+                $group: {
+                    _id: null, // קיבוץ כל המסמכים יחד
+                    totalAmount: { $sum: "$totalAmount" }, // סכום כל הכסף שנכנס
+                    totalSales: { $sum: 1 }, // סך כל המכירות
+                },
+            },
+        ]);
 
         return {
-            totalRevenue,
-            totalOrders,
+            salesByDate,
+            overallSales: overallSales[0] || { totalAmount: 0, totalSales: 0 },
         };
     },
 

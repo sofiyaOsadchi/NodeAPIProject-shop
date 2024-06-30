@@ -14,25 +14,16 @@ router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     }
 });
 
-router.get("/sales-by-date", isAdmin, async (req: Request<{}, {}, {}, SalesByDateQuery>, res: Response, next: NextFunction) => {
+router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
     try {
         const { startDate, endDate } = req.query;
 
-        if (!startDate || !endDate) {
-            return res.status(400).json({ message: "Please provide both startDate and endDate" });
-        }
+        // המרת תאריכים למבנה תאריך
+        const start = new Date(startDate as string);
+        const end = new Date(endDate as string);
 
-        // המרה של מחרוזות לתאריכים
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-
-        // בדיקה אם הפורמט תקין
-        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-            return res.status(400).json({ message: "Invalid date format" });
-        }
-
-        const salesData = await analyticsService.getSalesByDate(start, end);
-        res.json(salesData);
+        const sales = await analyticsService.getSalesByDate(start, end);
+        res.json(sales);
     } catch (e) {
         next(e);
     }
