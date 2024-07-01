@@ -16,6 +16,9 @@ const generateBizNumber = async () => {
 
 export const productService = {
   createProduct: async (data: IProductInput, userId: string) => {
+    if (!data.size) {
+      data.size = 'M';
+    }
     //userId is extracted from the JWT
     const product = new Product(data);
     product.userId = userId;
