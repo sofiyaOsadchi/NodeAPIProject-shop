@@ -67,12 +67,24 @@ router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
   try {
     const userId = req.payload._id;
     const productId = req.params.id;
-    const product = await productService.toggleShoppingCart(userId, productId);
-    res.json(product);
+    const cart = await productService.toggleShoppingCart(userId, productId);
+    res.json(cart);
   } catch (e) {
     next(e);
   }
 });
+
+router.get("/shopping-cart", validateToken, async (req, res, next) => {
+  try {
+    const userId = req.payload._id;
+    const cart = await productService.getShoppingCart(userId);
+    res.json(cart);
+  } catch (e) {
+    next(e);
+  }
+});
+
+
 
 router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
   try {

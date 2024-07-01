@@ -3,6 +3,7 @@ import { IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 import BizCardsError from "../errors/BizCardsError";
+import User from "../db/models/user-model";
 
 const generateBizNumber = async () => {
   //generate random bizNumber:
@@ -36,21 +37,35 @@ export const productService = {
 
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
-  getProductById: async (id: string) => Product.findById(id),
 
 
   toggleShoppingCart: async (userId: string, productId: string) => {
-    const product = await Product.findById(productId);
-    if (!product) throw new Error("Product not found");
+    const user = await User.findById(userId);
+    if (!user) throw new BizCardsError(404, "User not found");
 
-    const isFavorite = product.shoppingCart.includes(userId);
-    if (isFavorite) {
-      product.shoppingCart = product.shoppingCart.filter(fav => fav.toString() !== userId);
+    const product = await Product.findById(productId);
+    if (!product) throw new BizCardsError(404, "Product not found");
+
+    const productInCart = user.cart.find(item => item.productId.toString() === productId);
+    if (productInCart) {
+      user.cart = user.cart.filter(item => item.productId.toString() !== productId);
     } else {
-      product.shoppingCart.push(userId);
+      user.cart.push({
+        productId: product._id,
+        title: product.title,
+        price: product.price,
+        size: product.size
+      });
     }
-    await product.save();
-    return product;
+
+    await user.save();
+    return user.cart;
+  },
+
+  getShoppingCart: async (userId: string) => {
+    const user = await User.findById(userId).populate('cart.productId');
+    if (!user) throw new BizCardsError(404, "User not found");
+    return user.cart;
   },
 
   updateProduct: async (id: string, data: IProductInput, userId: string) => {
