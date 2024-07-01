@@ -70,6 +70,7 @@ export type IProduct = IProductInput & {
 export type IOrderProduct = {
   productId: string;
   quantity: number;
+  size: string;
 };
 
 export type IOrder = {

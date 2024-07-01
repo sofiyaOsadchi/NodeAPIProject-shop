@@ -2,6 +2,7 @@ import _ from "underscore";
 import { IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
+import BizCardsError from "../errors/BizCardsError";
 
 const generateBizNumber = async () => {
   //generate random bizNumber:
@@ -63,6 +64,35 @@ export const productService = {
     if (!product) throw new Error("Product not found or user unauthorized to delete this product");
     return product;
   },
+
+  bulkReplenishStock: async (updates: { id: string; size: string; quantity: number }[]) => {
+    if (!Array.isArray(updates) || updates.length === 0) {
+      throw new BizCardsError(400, "Updates must be a non-empty array");
+    }
+
+    const results = [];
+
+    for (const update of updates) {
+      if (!update.id || !update.size || !update.quantity) {
+        throw new BizCardsError(400, "Each update must include id, size, and quantity");
+      }
+      if (update.quantity <= 0) {
+        throw new BizCardsError(400, "Quantity must be greater than 0");
+      }
+
+      const product = await Product.findById(update.id);
+      if (!product) throw new BizCardsError(404, `Product not found: ${update.id}`);
+      if (!['S', 'M', 'L'].includes(update.size)) throw new BizCardsError(400, `Invalid size: ${update.size}`);
+
+      product.size[update.size] += update.quantity;
+      product.quantity += update.quantity;
+      await product.save();
+      results.push(product);
+    }
+
+    return results;
+  },
+
 };
 
 

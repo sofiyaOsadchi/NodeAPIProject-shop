@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { validateProduct } from "../middleware/joi";
 import {  productService } from "../services/product-service";
-import { isBusiness } from "../middleware/is-business";
 import BizCardsError from "../errors/BizCardsError";
 import { validateToken } from "../middleware/validate-token";
 import { isProductOwnerOrAdmin } from "../middleware/is-owner-or-admin";
@@ -37,18 +36,7 @@ router.put("/:id", ...isAdmin, async (req, res, next) => {
 });
 
 
-/* router.get("/my-products", validateToken, async (req, res, next) => {
-  try {
-    const products = await productService.getProductByUserId(req.payload._id);
-    res.json(products);
-  } catch (e) {
-    next(e);
-  }
-}); */
-  
-
-
-router.post("/", ...isBusiness, validateProduct, async (req, res, next) => {
+router.post("/", ...isAdmin, async (req, res, next) => {
   try {
     const result = await productService.createProduct(req.body, req.payload._id);
     res.status(201).json(result);
@@ -81,6 +69,16 @@ router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
     const productId = req.params.id;
     const product = await productService.toggleShoppingCart(userId, productId);
     res.json(product);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.patch("/replenish", validateToken, isAdmin, async (req, res, next) => {
+  try {
+    const updates = req.body;
+    const products = await productService.bulkReplenishStock(updates);
+    res.json(products);
   } catch (e) {
     next(e);
   }

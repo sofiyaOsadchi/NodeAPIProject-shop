@@ -15,20 +15,6 @@ router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     }
 });
 
-/* router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
-    try {
-        const { startDate, endDate } = req.query;
-
-        // המרת תאריכים למבנה תאריך
-        const start = new Date(startDate as string);
-        const end = new Date(endDate as string);
-
-        const sales = await analyticsService.getSalesByDate(start, end);
-        res.json(sales);
-    } catch (e) {
-        next(e);
-    }
-}); */
 
 router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
     try {
@@ -68,14 +54,6 @@ router.get("/inventory",  ...isAdmin, async (req, res, next) => {
     }
 });
 
-/* router.get("/total-sold", ...isAdmin, async (req, res, next) => {
-    try {
-        const totalSold = await analyticsService.getTotalSold();
-        res.json({ totalSold });
-    } catch (e) {
-        next(e);
-    }
-}); */
 
 router.get("/product-sales/:id", ...isAdmin, async (req, res, next) => {
     try {

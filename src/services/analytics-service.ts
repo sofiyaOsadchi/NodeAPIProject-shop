@@ -97,11 +97,6 @@ export const analyticsService = {
         };
     },
 
-   /*  getTotalSold: async () => {
-        const products = await Product.find();
-        return products.reduce((acc, product) => acc + product.sold, 0);
-    }, */
-
     getTopSellingProducts: async () => {
         const products = await Product.find().sort({ sold: -1 }).limit(10);
         return products.map(product => ({
