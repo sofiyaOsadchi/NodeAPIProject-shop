@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { analyticsService } from "../services/analytics-service";
 import { isAdmin } from "../middleware/is-admin";
 import { SalesByDateQuery } from "../@types/@types";
+import BizCardsError from "../errors/BizCardsError";
 
 const router = Router();
 
@@ -14,7 +15,7 @@ router.get("/all-orders", ...isAdmin, async (req, res, next) => {
     }
 });
 
-router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
+/* router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
     try {
         const { startDate, endDate } = req.query;
 
@@ -27,7 +28,35 @@ router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
     } catch (e) {
         next(e);
     }
+}); */
+
+router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        // המרת תאריכים למבנה תאריך ובדיקת פורמט
+        if (!startDate || !endDate) {
+            throw new BizCardsError(400, "Start date and end date are required");
+        }
+
+        const start = new Date(startDate as string);
+        const end = new Date(endDate as string);
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            throw new BizCardsError(400, "Invalid date format");
+        }
+
+        if (end < start) {
+            throw new BizCardsError(400, "End date cannot be earlier than start date");
+        }
+
+        const sales = await analyticsService.getSalesByDate(start, end);
+        res.json(sales);
+    } catch (e) {
+        next(e);
+    }
 });
+
 
 
 router.get("/inventory",  ...isAdmin, async (req, res, next) => {

@@ -37,6 +37,15 @@ export const analyticsService = {
         },
 
     getSalesByDate: async (startDate: Date, endDate: Date) => {
+
+        if (!startDate || !endDate) {
+            throw new BizCardsError(400, "Start date and end date are required");
+        }
+
+        if (new Date(endDate) < new Date(startDate)) {
+            throw new BizCardsError(400, "End date cannot be earlier than start date");
+        }
+
         // הוספת יום אחד לתאריך הסיום כדי לכלול את כל היום הנוכחי
         const adjustedEndDate = new Date(endDate);
         adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
@@ -126,6 +135,11 @@ export const analyticsService = {
     },
 
     updateOrderStatus: async (orderId: string, status: string) => {
+
+        if (!status) {
+            throw new BizCardsError(400, "Status is required");
+        }
+
         const validStatuses = ["pending", "approved", "processing", "shipped", "delivered", "cancelled", "returned", "completed"];
         if (!validStatuses.includes(status)) {
             throw new BizCardsError(404, "Invalid status");
