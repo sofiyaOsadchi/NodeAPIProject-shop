@@ -6,7 +6,7 @@ import BizCardsError from "../errors/BizCardsError";
 
 
 const isProductId: RequestHandler = async (req, res, next) => {
-    const product = await productService.getProductById(req.params.id);
+    const product = await productService.getProduct(req.params.id);
     if (product) {
         return next();
     }
