@@ -24,7 +24,7 @@ export type IUserInput = {
   email: string;
   phone: string;
   password: string;
-  isBusiness: boolean;
+  /* isBusiness: boolean; */
   address: IAddress;
   name: IName;
   image?: IImage;
@@ -51,7 +51,7 @@ export type ILogin = {
 export type IJWTPayload = {
   _id: string;
   isAdmin: boolean;
-  isBusiness: boolean;
+/*   isBusiness: boolean; */
 };
 
 export type IProductInput = {

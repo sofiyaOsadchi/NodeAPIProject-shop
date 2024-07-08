@@ -39,7 +39,7 @@ router.post("/login", validateLogin, async (req, res, next) => {
     const jwt = await usersService.loginUser(req.body);
     res.send(jwt);
   } catch (e) {
-    next(e);
+    next(e.message);
   }
 });
 

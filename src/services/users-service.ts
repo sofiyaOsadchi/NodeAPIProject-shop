@@ -37,7 +37,7 @@ export const usersService = {
     const payload: IJWTPayload = {
       _id: user._id.toString(),
       isAdmin: user.isAdmin,
-      isBusiness: user.isBusiness,
+   /*    isBusiness: user.isBusiness, */
     };
     return authService.generateJWT(payload);
   },

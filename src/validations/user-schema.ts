@@ -17,7 +17,7 @@ const imageSchema = Joi.object<IImage>({
 });
 
 const userSchema = Joi.object<IUser>({
-  isBusiness: Joi.boolean().required(),
+ /*  isBusiness: Joi.boolean().required(), */
   email: Joi.string().email().required(),
   phone: Joi.string().pattern(phoneRegex).required(),
   password: Joi.string().pattern(passwordRegex).required(),
