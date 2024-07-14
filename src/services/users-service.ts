@@ -4,12 +4,12 @@ import BizCardsError from "../errors/BizCardsError";
 import { authService } from "./auth-service";
 
 export const usersService = {
-  
+
   updateUser: async (data: IUserInput, id: string) => {
     data.password = await authService.hashPassword(data.password);
-    
-    
-    return User.findOneAndUpdate({ _id: id }, data, {new: true});
+
+
+    return User.findOneAndUpdate({ _id: id }, data, { new: true });
   },
 
   createUser: async (data: IUserInput) => {
@@ -37,7 +37,7 @@ export const usersService = {
     const payload: IJWTPayload = {
       _id: user._id.toString(),
       isAdmin: user.isAdmin,
-   /*    isBusiness: user.isBusiness, */
+      /*    isBusiness: user.isBusiness, */
     };
     return authService.generateJWT(payload);
   },

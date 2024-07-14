@@ -74,9 +74,8 @@ export const productService = {
     return product;
   },
 
-  deleteProduct: async (id: string, userId: string) => {
-    const product = await Product.findOneAndDelete({ _id: id, $or: [{ userId: userId }, { isAdmin: true }] });
-    if (!product) throw new Error("Product not found or user unauthorized to delete this product");
+  deleteProduct: async (id: string) => {
+    const product = await Product.findByIdAndDelete(id);
     return product;
   },
 

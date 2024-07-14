@@ -10,12 +10,11 @@ import isProductId from "../middleware/is-product-Id";
 
 const router = Router();
 
-router.delete("/:id", ...isAdmin, async (req, res, next) => {
+//delete product
+router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
   try {
-    const userId = req.payload._id;
     const productId = req.params.id;
-
-    const deletedProduct = await productService.deleteProduct(productId, userId);
+    const deletedProduct = await productService.deleteProduct(productId);
     res.json({ message: "Product deleted successfully", product: deletedProduct });
   } catch (e) {
     next(e);
