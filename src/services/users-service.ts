@@ -1,14 +1,12 @@
-import { IJWTPayload, ILogin, IUserInput } from "../@types/@types";
+import { IJWTPayload, ILogin, IUpdateUserType, IUserInput } from "../@types/@types";
 import User from "../db/models/user-model";
 import BizCardsError from "../errors/BizCardsError";
 import { authService } from "./auth-service";
 
 export const usersService = {
 
-  updateUser: async (data: IUserInput, id: string) => {
-    data.password = await authService.hashPassword(data.password);
-
-
+  updateUser: async (data: IUpdateUserType, id: string) => {
+    // data.password = await authService.hashPassword(data.password);
     return User.findOneAndUpdate({ _id: id }, data, { new: true });
   },
 
@@ -45,9 +43,11 @@ export const usersService = {
 
   getUserById: async (id: string) => User.findById(id, { password: 0 }),
 
-  deleteUser: async (id: string) => {
+/*   deleteUser: async (id: string) => {
     const user = await User.findByIdAndDelete(id);
     if (!user) throw new Error("User not found");
     return user;
-  },
+  }, */
+
+  deleteUserById: async (id: string) => User.findOneAndDelete({ _id: id }, { password: 0 })
 };

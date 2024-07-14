@@ -68,9 +68,9 @@ export const productService = {
     return user.cart;
   },
 
-  updateProduct: async (id: string, data: IProductInput, userId: string) => {
-    const product = await Product.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
-    if (!product) throw new Error("Product not found or user unauthorized to update this product");
+  //update product
+  updateProduct: async (id: string, data: IProductInput) => {
+    const product = await Product.findOneAndUpdate({ _id: id }, data, { new: true });
     return product;
   },
 

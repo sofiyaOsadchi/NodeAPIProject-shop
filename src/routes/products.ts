@@ -21,13 +21,13 @@ router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {
   }
 });
 
-router.put("/:id", ...isAdmin, async (req, res, next) => {
+//update product
+router.put("/:id", ...isAdmin, isProductId, async (req, res, next) => {
   try {
-    const userId = req.payload._id;
+    //const userId = req.payload._id;
     const productId = req.params.id;
     const productData = req.body;
-
-    const updatedProduct = await productService.updateProduct(productId, productData, userId);
+    const updatedProduct = await productService.updateProduct(productId, productData);
     res.json(updatedProduct);
   } catch (e) {
     next(e);

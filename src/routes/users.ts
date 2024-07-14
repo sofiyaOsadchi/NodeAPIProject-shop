@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { usersService } from "../services/users-service";
-import { validateProduct, validateLogin, validateUser } from "../middleware/joi";
+import { validateProduct, validateLogin, validateUser, validateUpdateUser } from "../middleware/joi";
 import { isAdmin } from "../middleware/is-admin";
 import { isAdminOrSelf } from "../middleware/is-admin-or-self";
 import { isSelf } from "../middleware/is-self";
 
 const router = Router();
 
-router.put("/:id", ...isSelf, validateUser, async (req, res, next) => {
+router.put("/:id", ...isSelf, validateUpdateUser, async (req, res, next) => {
   try {
     const saved = await usersService.updateUser(req.body, req.payload._id);
     res.json(saved);
@@ -54,11 +54,10 @@ router.post("/", validateUser, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", isAdminOrSelf, async (req, res, next) => {
+router.delete("/:id", ...isAdminOrSelf, async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    const deletedUser = await usersService.deleteUser(userId);
-    res.json({ message: "User deleted successfully", user: deletedUser });
+    const user = await usersService.deleteUserById(req.params.id);
+    res.json(user);
   } catch (e) {
     next(e);
   }
