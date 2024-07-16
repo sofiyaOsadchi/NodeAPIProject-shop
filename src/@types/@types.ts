@@ -103,7 +103,7 @@ export type IUpdateUserType = {
   };
   phone: string;
   image: {
-    url: string;
+    url?: string;
     alt: string;
   };
   address: {

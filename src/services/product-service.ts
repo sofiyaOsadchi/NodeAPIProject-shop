@@ -4,6 +4,9 @@ import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 import BizCardsError from "../errors/BizCardsError";
 import User from "../db/models/user-model";
+import fs from 'fs';
+import path from 'path';
+
 
 const generateBizNumber = async () => {
   //generate random bizNumber:
@@ -16,20 +19,52 @@ const generateBizNumber = async () => {
   }
 };
 
+/* const ensureDirectoryExistence = (filePath: string) => {
+  const dirname = path.dirname(filePath);
+  if (fs.existsSync(dirname)) {
+    return true;
+  }
+  ensureDirectoryExistence(dirname);
+  fs.mkdirSync(dirname);
+}; */
+
 export const productService = {
-  createProduct: async (data: IProductInput, userId: string) => {
-    if (!data.size) {
-      data.size = 'M';
-    }
-    //userId is extracted from the JWT
-    const product = new Product(data);
-    product.userId = userId;
-    product.barcode = await generateBizNumber();
+  /* createProduct: async (data: IProductInput, userId: string) => {
+     if (!data.size) {
+       data.size = 'M';
+     }
+     //userId is extracted from the JWT
+     const product = new Product(data);
+     product.userId = userId;
+     product.barcode = await generateBizNumber();
+ 
+     Logger.log(product.barcode);
+ 
+     return product.save();
+   }, */
 
-    Logger.log(product.barcode);
 
-    return product.save();
-  },
+  
+    createProduct: async (data: IProductInput, userId: string) => {
+      if (!data.size) {
+        data.size = 'M';
+      }
+      const product = new Product(data);
+      product.userId = userId;
+      product.barcode = await generateBizNumber();
+
+      Logger.log(product.barcode);
+
+      return product.save();
+    },
+
+    updateProduct: async (id: string, data: IProductInput) => {
+      const product = await Product.findByIdAndUpdate(id, data, { new: true });
+      if (!product) throw new Error("Product not found");
+      return product;
+    },
+ 
+
 
   getProducts: async () => Product.find(),
 
@@ -68,11 +103,11 @@ export const productService = {
     return user.cart;
   },
 
-  //update product
-  updateProduct: async (id: string, data: IProductInput) => {
-    const product = await Product.findOneAndUpdate({ _id: id }, data, { new: true });
+ /*  updateProduct: async (id: string, data: IProductInput, userId: string) => {
+    const product = await Product.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });
+    if (!product) throw new Error("Product not found or user unauthorized to update this product");
     return product;
-  },
+  }, */
 
   deleteProduct: async (id: string) => {
     const product = await Product.findByIdAndDelete(id);
