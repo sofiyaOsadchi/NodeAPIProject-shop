@@ -43,8 +43,23 @@ router.post("/", ...isAdmin, upload.single("image"), validateProduct, async (req
   }
 });
 
-// Update product
-router.put("/:id",  ...isAdmin, upload.single("image"), async (req, res, next) => {
+router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
+  try {
+    console.log("Payload:", req.payload); // הוספת דיבאג
+    if (!req.payload) {
+      throw new Error("Invalid token");
+    }
+    const imageUrl = req.file ? `http://localhost:8080/uploads/${req.file.filename}` : req.body.imageUrl;
+    const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
+    const updatedProduct = await productService.updateProduct(req.params.id, productData);
+    res.json(updatedProduct);
+  } catch (e) {
+    next(e);
+  }
+});
+
+
+/* router.put("/:id",  ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
     console.log("Payload:", req.payload); // הוספת דיבאג
     if (!req.payload) {
@@ -58,7 +73,7 @@ router.put("/:id",  ...isAdmin, upload.single("image"), async (req, res, next) =
     next(e);
   }
 });
-
+ */
 
 //delete product
 router.delete("/:id", ...isAdmin, isProductId, async (req, res, next) => {

@@ -43,6 +43,17 @@ export type ICartProduct = {
   size: string;
 };
 
+
+export type ICartItem = {
+  productId: string;
+  quantity: number;
+};
+
+export type ICart = {
+  userId: string;
+  items: ICartItem[];
+};
+
 export type ILogin = {
   email: string;
   password: string;
@@ -103,10 +114,6 @@ export type IUpdateUserType = {
     last: string;
   };
   phone: string;
-  /* image: {
-    url?: string;
-  };
-  alt: string; */
   address: {
     state: string;
     country: string;
@@ -116,3 +123,5 @@ export type IUpdateUserType = {
     zip: number;
   };
 };
+
+

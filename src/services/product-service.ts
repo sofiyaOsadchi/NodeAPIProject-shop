@@ -58,7 +58,7 @@ export const productService = {
       return product.save();
     },
 
-    updateProduct: async (id: string, data: IProductInput) => {
+  updateProduct: async (id: string, data: FormData) => {
       const product = await Product.findByIdAndUpdate(id, data, { new: true });
       if (!product) throw new Error("Product not found");
       return product;
