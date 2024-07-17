@@ -17,6 +17,7 @@ const productSchema = new Schema<IProduct>({
     maxlength: 25
   },
   image: { type: imageSchema, required: true },
+  alt: { type: String, required: true, minlength: 2, maxlength: 50 },
 
   shoppingCart: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   quantity: { type: Number, required: true }, 

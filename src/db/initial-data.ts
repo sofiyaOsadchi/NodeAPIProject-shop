@@ -70,8 +70,9 @@ const products = [
     sold: 0,
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
-      alt: "image of something",
+      
     },
+    alt: "image of something",
   },
 
   {
@@ -83,8 +84,9 @@ const products = [
     sold: 0,
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
-      alt: "image of something",
+      
     },
+    alt: "image of something",
   },
 
   {
@@ -96,8 +98,9 @@ const products = [
     sold: 2,
     image: {
       url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
-      alt: "image of something",
+      
     },
+    alt: "image of something",
   },
 
 

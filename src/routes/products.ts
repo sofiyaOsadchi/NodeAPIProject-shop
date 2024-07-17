@@ -10,11 +10,12 @@ import isProductId from "../middleware/is-product-Id";
 import User from "../db/models/user-model";
 import multer from "multer";
 import path from "path";
+import upload from "../middleware/uploads";
 
 
 const router = Router();
 
-const storage = multer.diskStorage({
+/* const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, "../uploads"));
   },
@@ -23,16 +24,17 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage }); */
 
 // Add product
-router.post("/", upload.single("image"), async (req, res, next) => {
+router.post("/", ...isAdmin, upload.single("image"), validateProduct, async (req, res, next) => {
   try {
     console.log("Payload:", req.payload); // הוספת דיבאג
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : "";
+    const imageUrl = `http://localhost:8080/uploads/${req.file.filename}`;
+    res.json({ imageUrl })
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
     const result = await productService.createProduct(productData, req.payload._id);
     res.status(201).json(result);
@@ -42,7 +44,7 @@ router.post("/", upload.single("image"), async (req, res, next) => {
 });
 
 // Update product
-router.put("/:id", upload.single("image"), async (req, res, next) => {
+router.put("/:id",  ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
     console.log("Payload:", req.payload); // הוספת דיבאג
     if (!req.payload) {

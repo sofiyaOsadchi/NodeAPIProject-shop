@@ -25,7 +25,7 @@ app.use(cors({ origin: ["http://localhost:5173", "http://localhost:5172"] }));
 //http://localhost:8080/api/v1/users
 
 
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+/* app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads'))); */
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/analytics", analyticsRouter);

@@ -16,7 +16,6 @@ export type IAddress = {
 };
 
 export type IImage = {
-  alt: string;
   url: string;
 };
 
@@ -28,6 +27,7 @@ export type IUserInput = {
   address: IAddress;
   name: IName;
   image?: IImage;
+  alt: string;
 };
 
 export type IUser = IUserInput & {
@@ -60,6 +60,7 @@ export type IProductInput = {
   description: string;
   price: number;
   image: IImage;
+  alt: string;
   size: string;
   quantity: number;
   barcode: number;
@@ -104,8 +105,8 @@ export type IUpdateUserType = {
   phone: string;
   image: {
     url?: string;
-    alt: string;
   };
+  alt: string;
   address: {
     state: string;
     country: string;
