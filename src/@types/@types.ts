@@ -26,8 +26,8 @@ export type IUserInput = {
   /* isBusiness: boolean; */
   address: IAddress;
   name: IName;
-  image?: IImage;
-  alt: string;
+ /*  image?: IImage;
+  alt: string; */
 };
 
 export type IUser = IUserInput & {
@@ -103,10 +103,10 @@ export type IUpdateUserType = {
     last: string;
   };
   phone: string;
-  image: {
+  /* image: {
     url?: string;
   };
-  alt: string;
+  alt: string; */
   address: {
     state: string;
     country: string;

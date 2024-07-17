@@ -9,8 +9,8 @@ import { object } from "underscore";
 const userSchema = new Schema<IUser>({
   name: nameSchema,
   address: addressSchema,
-  image: { type: imageSchema, required: false },
-  alt: { type: String, required: false }, 
+/*   image: { type: imageSchema, required: false },
+  alt: { type: String, required: false }, */ 
   email: {
     type: String,
     required: true,

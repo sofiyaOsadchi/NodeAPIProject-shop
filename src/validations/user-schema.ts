@@ -27,8 +27,8 @@ const userSchema = Joi.object<IUser>({
     middle: Joi.string().min(0),
     last: Joi.string().min(2).max(50).required(),
   }).required(),
-  image: imageSchema,
-  alt: Joi.string().min(2).max(50),
+ /*  image: imageSchema,
+  alt: Joi.string().min(2).max(50), */
 });
 
 const updateUserSchema = Joi.object<IUpdateUserType>({
@@ -38,8 +38,8 @@ const updateUserSchema = Joi.object<IUpdateUserType>({
     last: Joi.string().min(2).max(50),
   }),
   phone: Joi.string().pattern(phoneRegex),
-  image: imageSchema,
-alt: Joi.string().min(2).max(50),
+/*   image: imageSchema,
+alt: Joi.string().min(2).max(50), */
   address: addressSchema,
 });
 
