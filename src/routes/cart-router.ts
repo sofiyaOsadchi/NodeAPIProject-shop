@@ -28,15 +28,15 @@ router.post('/add', async (req: Request, res: Response) => {
 
 router.post('/remove', async (req: Request, res: Response) => {
     try {
-        const { productId } = req.body;
-        const cart = await removeProductFromCart(req.user!._id, productId);
+        const { productId, quantity } = req.body;
+        const cart = await removeProductFromCart(req.user!._id, productId, quantity);
         res.status(200).json(cart);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-router.post('/clear', async (req: Request, res: Response) => {
+router.delete('/clear', async (req: Request, res: Response) => {
     try {
         const cart = await clearCart(req.user!._id);
         res.status(200).json(cart);

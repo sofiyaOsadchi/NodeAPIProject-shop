@@ -38,17 +38,21 @@ const addProductToCart = async (userId: string, productId: string, quantity: num
     return cart;
 };
 
-const removeProductFromCart = async (userId: string, productId: string): Promise<ICart | null> => {
+const removeProductFromCart = async (userId: string, productId: string, quantity: number): Promise<ICart | null> => {
     const cart = await Cart.findOne({ userId });
 
     if (!cart) {
         throw new Error('Cart not found');
     }
 
-    const itemIndex = cart.items.findIndex((item: ICartItem) => item.productId === productId);
+    const itemIndex = cart.items.findIndex((item) => item.productId === productId);
 
     if (itemIndex > -1) {
-        cart.items.splice(itemIndex, 1);
+        if (cart.items[itemIndex].quantity > quantity) {
+            cart.items[itemIndex].quantity -= quantity;
+        } else {
+            cart.items.splice(itemIndex, 1);
+        }
         await cart.save();
         return cart;
     }
