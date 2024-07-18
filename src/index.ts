@@ -14,6 +14,8 @@ import cors from 'cors';
 import { analyticsRouter } from "./routes/analytics-router";
 import { orderRouter } from "./routes/order-router";
 import path from "path";
+import cartRouter from "./routes/cart-router";
+import authenticateUser from "./middleware/authMiddleware";
 Logger.error("hi");
 
 const app = express();
@@ -24,12 +26,14 @@ app.use(morgan("dev"));
 app.use(cors({ origin: ["http://localhost:5173", "http://localhost:5172"] }));
 //http://localhost:8080/api/v1/users
 
+app.use(authenticateUser);
 
 /* app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads'))); */
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/cart", cartRouter); // הוספת הנתיב לעגלת הקניות
 app.use(express.static("public"));
 app.use(errorHandler);
 app.use(notFound);

@@ -31,28 +31,31 @@ export type IUserInput = {
 };
 
 export type IUser = IUserInput & {
+  _id?: string;
   createdAt: Date;
   isAdmin: boolean;
-  cart: ICartProduct[];
+  cart?: [],
+  
 };
 
-export type ICartProduct = {
+/* export type ICartProduct = {
   productId: string;
   title: string;
   price: number;
   size: string;
-};
+};  */
 
-
-export type ICartItem = {
-  productId: string;
+export interface ICartItem {
+  productId: string; // נשאר כמחרוזת לפי הבקשה שלך
   quantity: number;
-};
+}
 
-export type ICart = {
-  userId: string;
+export interface ICart extends Document {
+  userId: string; // נשאר כמחרוזת לפי הבקשה שלך
   items: ICartItem[];
-};
+}
+
+
 
 export type ILogin = {
   email: string;

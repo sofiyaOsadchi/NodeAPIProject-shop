@@ -130,7 +130,7 @@ router.get("/:id", isProductId, async (req, res, next) => {
   }
 });
 
-router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
+/* router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
   try {
     const userId = req.payload._id;
     const productId = req.params.id;
@@ -139,7 +139,7 @@ router.patch("/:id/shopping-cart", validateToken, async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-});
+}); */
 
 
 

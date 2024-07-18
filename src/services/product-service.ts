@@ -3,9 +3,6 @@ import { IProductInput } from "../@types/@types";
 import Product from "../db/models/product-model";
 import { Logger } from "../logs/logger";
 import BizCardsError from "../errors/BizCardsError";
-import User from "../db/models/user-model";
-import fs from 'fs';
-import path from 'path';
 
 
 const generateBizNumber = async () => {
@@ -73,7 +70,7 @@ export const productService = {
   getProductByUserId: async (userId: string) => Product.find({ userId: userId }),
 
 
-
+/* 
   toggleShoppingCart: async (userId: string, productId: string) => {
     const user = await User.findById(userId);
     if (!user) throw new BizCardsError(404, "User not found");
@@ -101,7 +98,7 @@ export const productService = {
     const user = await User.findById(userId).populate('cart.productId');
     if (!user) throw new BizCardsError(404, "User not found");
     return user.cart;
-  },
+  }, */
 
  /*  updateProduct: async (id: string, data: IProductInput, userId: string) => {
     const product = await Product.findOneAndUpdate({ _id: id, userId: userId }, data, { new: true });

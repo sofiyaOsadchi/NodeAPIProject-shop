@@ -25,12 +25,12 @@ const userSchema = new Schema<IUser>({
 
   createdAt: { type: Date, default: new Date(), required: false },
   isAdmin: { required: false, type: Boolean, default: false },
-  cart: [{
+  /* cart: [{
     productId: { type: Schema.Types.ObjectId, ref: 'Product' },
     title: { type: String },
     price: { type: Number },
     size: { type: String }
-  }],
+  }], */
 });
 
 export default userSchema;
