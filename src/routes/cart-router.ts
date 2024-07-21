@@ -1,48 +1,55 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { getCart, addProductToCart, removeProductFromCart, clearCart } from '../services/cart-service';
-import { IUser } from '../@types/@types';
-import authenticateUser from '../middleware/authMiddleware';
+import { Router } from 'express';
+import { cartService } from '../services/cart-service';
+import { validateToken } from '../middleware/validate-token';
+import { validateAddToCart } from '../middleware/is-self-cart';
 
-const router = express.Router();
+const router = Router();
 
-router.use(authenticateUser);
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', validateToken, async (req, res, next) => {
     try {
-        const cart = await getCart(req.user!._id);
-        res.status(200).json(cart);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        const userId = req.payload._id; // Ensure user ID is fetched correctly
+        if (!userId) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+        const cart = await cartService.getCartById(userId);
+        res.json(cart);
+    } catch (e) {
+        next(e);
     }
 });
 
-router.post('/add', async (req: Request, res: Response) => {
+
+router.post('/add', ...validateAddToCart, async (req, res, next) => {
     try {
+        const { productId, quantity, size } = req.body;
+        const userId = req.payload._id;
+        const cart = await cartService.addProductToCart(userId, productId, quantity, size);
+        res.json(cart);
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.post('/remove', validateToken, async (req, res, next) => {
+    try {
+        const userId = req.payload._id;
         const { productId, quantity } = req.body;
-        const cart = await addProductToCart(req.user!._id, productId, quantity);
-        res.status(200).json(cart);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        const cart = await cartService.removeProductFromCart(userId, productId, quantity);
+        res.json(cart);
+    } catch (e) {
+        next(e);
     }
 });
 
-router.post('/remove', async (req: Request, res: Response) => {
+router.delete('/clear', validateToken, async (req, res, next) => {
+    const userId = req.payload._id;
     try {
-        const { productId, quantity } = req.body;
-        const cart = await removeProductFromCart(req.user!._id, productId, quantity);
-        res.status(200).json(cart);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        const cart = await cartService.clearCart(userId);
+        res.json(cart);
+    } catch (e) {
+        next(e);
     }
 });
 
-router.delete('/clear', async (req: Request, res: Response) => {
-    try {
-        const cart = await clearCart(req.user!._id);
-        res.status(200).json(cart);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-export default router;
+export { router as cartRouter };

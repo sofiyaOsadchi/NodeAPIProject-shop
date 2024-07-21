@@ -46,15 +46,22 @@ export type IUser = IUserInput & {
 };  */
 
 export interface ICartItem {
-  productId: string; // נשאר כמחרוזת לפי הבקשה שלך
+  productId: string;
   quantity: number;
-}
+  title: string;
+  price: number;
+  size: string ;
+};
 
 export interface ICart extends Document {
-  userId: string; // נשאר כמחרוזת לפי הבקשה שלך
+  userId: string;
   items: ICartItem[];
-}
+};
 
+export interface ICartWithTotals extends ICart {
+  totalQuantity: number;
+  totalPrice: number;
+};
 
 
 export type ILogin = {
