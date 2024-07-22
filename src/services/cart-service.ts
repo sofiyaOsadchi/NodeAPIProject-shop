@@ -33,8 +33,6 @@ export const cartService = {
 
 
 
-
-
     addProductToCart: async (userId: string, productId: string, quantity: number, size: string): Promise<ICart | null> => {
         // First, find the cart for the user
         let cart = await CartModel.findOne({ userId });
@@ -63,7 +61,7 @@ export const cartService = {
 
             // If the product does not exist, add it to the cart
             else {
-                cart.items.push({ productId, quantity, size: size, title: product.title, price: product.price });
+                cart.items.push({ productId, quantity, size: size, title: product.title, price: product.price, image: product.image });
             }
         }
 
