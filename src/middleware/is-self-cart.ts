@@ -25,7 +25,7 @@ const _validateAddToCart = async (req: Request, res: Response, next: NextFunctio
             // Create an empty cart for the user if not found
             cart = new CartModel({
                 userId, items: [{
-                    productId, quantity, size, title: product.title, price: product.price }] });
+                    productId, quantity, size, title: product.title, price: product.price, image: product.image }] });
             await cart.save();
         } else {
             // Check if the cart belongs to the user
