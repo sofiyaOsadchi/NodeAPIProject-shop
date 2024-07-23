@@ -40,12 +40,8 @@ export const productService = {
      return product.save();
    }, */
 
-
-  
     createProduct: async (data: IProductInput, userId: string) => {
-      if (!data.size) {
-        data.size = 'M';
-      }
+      
       const product = new Product(data);
       product.userId = userId;
       product.barcode = await generateBizNumber();
@@ -130,7 +126,7 @@ export const productService = {
       if (!product) throw new BizCardsError(404, `Product not found: ${update.id}`);
       if (!['S', 'M', 'L'].includes(update.size)) throw new BizCardsError(400, `Invalid size: ${update.size}`);
 
-      product.size[update.size] += update.quantity;
+      product.sizes[update.size] += update.quantity;
       product.quantity += update.quantity;
       await product.save();
       results.push(product);

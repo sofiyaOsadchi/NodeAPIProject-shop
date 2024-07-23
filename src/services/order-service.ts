@@ -21,7 +21,7 @@ export const orderService = {
                     barcode: productDetails.barcode,
                     quantity: product.quantity,
                     price: productDetails.price,
-                    size: productDetails.size,
+                    size: productDetails.sizes,
                 };
             }));
 

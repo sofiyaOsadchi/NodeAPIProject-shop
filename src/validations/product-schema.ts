@@ -10,8 +10,8 @@ const productSchema = Joi.object<IProductInput>({
   price: Joi.number().min(1).max(999_999).required(),
   image: imageSchema,
   alt: Joi.string().min(2).max(50).required(),
-  size: Joi.string().min(1).max(25).required(),
-  quantity: Joi.number().required(), 
+  sizes: Joi.array().items(Joi.string().valid("S", "M", "L")).required(),
+  quantity: Joi.string().required(), 
   /* barcode: Joi.number().required(), */
 });
 

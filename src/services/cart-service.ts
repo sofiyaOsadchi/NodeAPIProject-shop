@@ -31,8 +31,6 @@ export const cartService = {
         }
     },
 
-
-
     addProductToCart: async (userId: string, productId: string, quantity: number, size: string): Promise<ICart | null> => {
         // First, find the cart for the user
         let cart = await CartModel.findOne({ userId });
