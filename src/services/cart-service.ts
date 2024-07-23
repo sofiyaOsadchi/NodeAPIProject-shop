@@ -1,6 +1,7 @@
 import Product from '../db/models/product-model';
 import { ICart, ICartWithTotals } from '../@types/@types';
 import CartModel from '../db/models/cart-model';
+import BizCardsError from '../errors/BizCardsError';
 
 
 export const cartService = {
@@ -45,7 +46,7 @@ export const cartService = {
         if (!cart) {
             cart = new CartModel({
                 userId,
-                items: [{ productId, quantity }]
+                items: [{ productId, quantity, size: size, title: product.title, price: product.price, image: product.image }]
             });
         }
         // If the cart exists, check if the product already exists in the cart
@@ -68,8 +69,37 @@ export const cartService = {
         return cart;
     },
 
+    removeProductFromCart: async (userId: string, productId: string): Promise<ICart | null> => {
+        // מצא את העגלה על פי userId
+        const cart = await CartModel.findOne({ userId });
 
-    removeProductFromCart: async (userId: string, productId: string, quantity: number): Promise<ICart | null> => {
+        if (!cart) {
+            throw new BizCardsError(404, 'Cart not found');
+        }
+
+        // סנן את המוצרים כדי להסיר את כל המוצרים עם אותו productId
+        cart.items = cart.items.filter((item) => item.productId !== productId);
+
+        await cart.save();
+        return cart;
+    },
+
+    //update quantity in cart
+    updateQuantityInCart: async (userId: string, productId: string, quantity: number): Promise<ICart | null> => {
+        const cart = await CartModel.findOne({ userId });
+        if (!cart) {
+            throw new Error('Cart not found');
+        }
+        const itemIndex = cart.items.findIndex((item) => item.productId === productId);
+        if (itemIndex === -1) {
+            throw new Error('Product not found in cart');
+        }
+        cart.items[itemIndex].quantity = quantity;
+        await cart.save();
+        return cart;
+    },
+
+   /*  removeProductFromCart: async (userId: string, productId: string, quantity: number): Promise<ICart | null> => {
         const cart = await CartModel.findOne({ userId });
 
         if (!cart) {
@@ -90,7 +120,7 @@ export const cartService = {
 
         throw new Error('Product not found in cart');
     },
-
+ */
 
     clearCart: async (userId: string): Promise<ICart | null> => {
         const cart = await CartModel.findOne({ userId });
