@@ -51,7 +51,7 @@ export const cartService = {
         }
         // If the cart exists, check if the product already exists in the cart
         else {
-            const itemIndex = cart.items.findIndex((item) => item.productId === productId);
+            const itemIndex = cart.items.findIndex((item) => item.productId === productId && item.size === size);
 
             // If the product exists, update the quantity
             if (itemIndex > -1) {
