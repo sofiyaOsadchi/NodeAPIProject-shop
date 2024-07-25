@@ -3,6 +3,7 @@ import { orderService } from "../services/order-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import { isAdminOrSelfUser } from "../middleware/is-admin-or-self-user";
+import { isAdminOrOwner } from "../middleware/isAdminOrOwner";
 
 const router = Router();
 
@@ -38,6 +39,17 @@ router.get("/user/:userId", isAdminOrSelfUser, async (req, res, next) => {
         next(e);
     }
 });
+
+
+router.get('/:id', ...isAdminOrOwner, async (req, res, next) => {
+    try {
+        const orderId = req.params.id;
+        const order = await orderService.getOrder(orderId);
+        res.json(order);
+    } catch (e) {
+        next(e);
+    }
+}),
 
 
 router.patch("/cancel/:orderId", ...isAdmin, async (req, res, next) => {

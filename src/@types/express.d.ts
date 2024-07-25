@@ -1,4 +1,4 @@
-import { IJWTPayload, IProduct, IUser } from "./@types";
+import { IJWTPayload, IOrder, IProduct, IUser } from "./@types";
 
 declare global{
     namespace Express{
@@ -6,6 +6,7 @@ declare global{
             payload?: IJWTPayload
             user?: IUser; 
             product: IProduct;
+            order?: IOrder,
         }
     }
 }
