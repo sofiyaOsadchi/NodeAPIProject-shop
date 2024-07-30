@@ -16,6 +16,7 @@ router.get("/all-orders", ...isAdmin, async (req, res, next) => {
 });
 
 
+// sales-router.js
 router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
     try {
         const { startDate, endDate } = req.query;
@@ -45,7 +46,7 @@ router.get("/sales-by-date", ...isAdmin, async (req, res, next) => {
 
 
 
-router.get("/inventory",  ...isAdmin, async (req, res, next) => {
+/* router.get("/inventory",  ...isAdmin, async (req, res, next) => {
     try {
         const inventory = await analyticsService.getInventory();
         res.json(inventory);
@@ -63,7 +64,7 @@ router.get("/product-sales/:id", ...isAdmin, async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-});
+}); */
 
 router.get("/order-status", ...isAdmin, async (req, res, next) => {
     try {
@@ -86,13 +87,5 @@ router.patch("/status/:orderId", ...isAdmin, async (req, res, next) => {
     }
 });
 
-router.get("/products/top-selling", ...isAdmin, async (req, res, next) => {
-    try {
-        const topSellingProducts = await analyticsService.getTopSellingProducts();
-        res.json(topSellingProducts);
-    } catch (e) {
-        next(e);
-    }
-});
 
 export { router as analyticsRouter };
