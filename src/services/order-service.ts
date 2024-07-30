@@ -1,57 +1,20 @@
 import Order from "../db/models/order-model";
 import Product from "../db/models/product-model";
 import { IOrderProduct } from "../@types/@types";
+import BizCardsError from "../errors/BizCardsError";
 
 export const orderService = {
 
-   /*  createOrder: async (userId: string, products: IOrderProduct[]) => {
-        try {
-            const orderProducts = await Promise.all(products.map(async product => {
-                const productDetails = await Product.findById(product.productId);
-                if (!productDetails) throw new Error("Product not found");
-                if (productDetails.quantity < product.quantity) throw new Error("Not enough stock");
-
-                // Update product stock
-                productDetails.quantity -= product.quantity;
-                productDetails.sold += product.quantity;
-                await productDetails.save();
-
-                return {
-                    productId: product.productId,
-                    title: productDetails.title,
-                    barcode: productDetails.barcode,
-                    quantity: product.quantity,
-                    price: productDetails.price,
-                    size: product.size, // שינוי זה לוקח את המידה מהבקשה
-                };
-            }));
-
-            // Calculate totalAmount
-            const totalAmount = orderProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0);
-
-            const order = new Order({
-                userId,
-                products: orderProducts,
-                totalAmount,
-            });
-
-            return await order.save();
-        } catch (error) {
-            console.error("Error creating order:", error.message);
-            throw error;
-        }
-    },
-
- */
     createOrder: async (userId: string, products: IOrderProduct[]) => {
         try {
             const orderProducts = await Promise.all(products.map(async product => {
                 const productDetails = await Product.findById(product.productId);
-                if (!productDetails) throw new Error("Product not found");
-                if (productDetails.quantity < product.quantity) throw new Error("Not enough stock");
+                const variant = productDetails.variants.find(v => v.size === product.size);
+                if (!variant) throw new BizCardsError(404, "Variant not found");
+                if (variant.quantity < product.quantity) throw new BizCardsError(400, "Not enough stock");
 
-                // Update product stock
-                productDetails.quantity -= product.quantity;
+                // עדכון מלאי המוצר
+                variant.quantity -= product.quantity;
                 productDetails.sold += product.quantity;
                 await productDetails.save();
 
@@ -60,7 +23,7 @@ export const orderService = {
                     title: productDetails.title,
                     barcode: productDetails.barcode,
                     quantity: product.quantity,
-                    price: productDetails.price,
+                    price: variant.price,
                     size: product.size,
                 };
             }));
@@ -72,6 +35,7 @@ export const orderService = {
                 userId,
                 products: orderProducts,
                 totalAmount,
+                orderNumber: Date.now().toString(),
             });
 
             return await order.save();
@@ -90,16 +54,17 @@ export const orderService = {
             throw new Error("Order is already cancelled");
         }
 
-        // Return the stock
         for (const product of order.products) {
             const productDetails = await Product.findById(product.productId);
             if (productDetails) {
-                productDetails.quantity += product.quantity;
+                const variant = productDetails.variants.find(v => v.size === product.size);
+                if (variant) {
+                    variant.quantity += product.quantity;
+                }
                 productDetails.sold -= product.quantity;
                 await productDetails.save();
             }
         }
-
         order.status = "cancelled";
         return await order.save();
     },

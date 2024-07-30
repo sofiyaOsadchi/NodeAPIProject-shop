@@ -34,34 +34,8 @@ export type IUser = IUserInput & {
   _id?: string;
   createdAt: Date;
   isAdmin: boolean;
-  cart?: [],
+  cart?: ICart[];
   
-};
-
-/* export type ICartProduct = {
-  productId: string;
-  title: string;
-  price: number;
-  size: string;
-};  */
-
-export interface ICartItem {
-  productId: string;
-  quantity: number;
-  title: string;
-  price: number;
-  size: string ;
-  image: IImage;
-};
-
-export interface ICart extends Document {
-  userId: string;
-  items: ICartItem[];
-};
-
-export interface ICartWithTotals extends ICart {
-  totalQuantity: number;
-  totalPrice: number;
 };
 
 
@@ -73,19 +47,50 @@ export type ILogin = {
 export type IJWTPayload = {
   _id: string;
   isAdmin: boolean;
-/*   isBusiness: boolean; */
+  /*   isBusiness: boolean; */
 };
+
+
+
+export interface ICartItem {
+  productId: string;
+  variantId: string;
+  title: string;
+  price: number;
+  size: string;
+  quantity: number;
+  image: IImage;
+}
+
+
+export interface ICart {
+  userId: string;
+  items: ICartItem[];
+}
+
+export interface ICartWithTotals extends ICart {
+  totalQuantity: number;
+  totalPrice: number;
+};
+
+
+export type IVariant = {
+  _id?: string;
+  size: string;
+  quantity: number;
+  price: number;
+};
+
+
+
 
 export type IProductInput = {
   title: string;
   subtitle: string;
   description: string;
-  price: number;
   image: IImage;
   alt: string;
-  sizes: string [];
-  quantity: number;
-  barcode: number;
+  variants: IVariant[];
 };
 
 export type IProduct = IProductInput & {
@@ -93,7 +98,6 @@ export type IProduct = IProductInput & {
   barcode: number;
   createdAt: Date;
   shoppingCart: string[];
-  quantity: number;
   sold: number;
   userId: string;
 };
@@ -102,8 +106,11 @@ export type IOrderProduct = {
   productId: string;
   quantity: number;
   size: string;
+  price: number;
+  title: string;
 };
 
+// טיפוס עבור הזמנה
 export type IOrder = {
   userId: string;
   products: IOrderProduct[];

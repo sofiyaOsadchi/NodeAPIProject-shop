@@ -6,14 +6,14 @@ import BizCardsError from "../errors/BizCardsError";
 export const analyticsService = {
 
 
-    getInventory: async () => {
+   /*  getInventory: async () => {
         const products = await Product.find();
         return products.map(product => ({
             title: product.title,
             quantity: product.quantity,
             sold: product.sold,
         }));
-    },
+    }, */
 
         getAllOrders: async () => {
             const orders = await Order.find().populate({
@@ -97,7 +97,7 @@ export const analyticsService = {
         };
     },
 
-    getTopSellingProducts: async () => {
+  /*   getTopSellingProducts: async () => {
         const products = await Product.find().sort({ sold: -1 }).limit(10);
         return products.map(product => ({
             title: product.title,
@@ -105,16 +105,16 @@ export const analyticsService = {
             price: product.price,
             totalRevenue: product.sold * product.price  // חישוב סך ההכנסות
         }));
-    },
+    }, */
 
-    getProductSales: async (productId: string) => {
+   /*  getProductSales: async (productId: string) => {
         const product = await Product.findById(productId);
         if (!product) throw new BizCardsError(404, "Product not found");
         return {
             title: product.title,
             sold: product.sold,
         };
-    },
+    }, */
 
 
     getOrderStatus: async () => {

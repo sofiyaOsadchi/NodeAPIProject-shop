@@ -1,28 +1,27 @@
 import { Schema } from "mongoose";
-import { IProduct } from "../../@types/@types";
-import addressSchema from "./address-schema";
-import imageSchema from "./image-schema";
+import { IProduct, IVariant } from "../../@types/@types";
 
-const productSchema = new Schema<IProduct>({
-  title: { type: String, required: true, minlength: 2, maxlength: 256 },
-  subtitle: { type: String, required: true, minlength: 2, maxlength: 256 },
-  description: { type: String, required: true, minlength: 2, maxlength: 1024 },
-  price: { type: Number, required: true, min: 1, max: 999_999},
-  sizes: {
-    type: [String], // שינוי לסוג מערך של מחרוזות
-    enum: ['S', 'M', 'L'], // ציון הערכים המותרים
-    required: true
-  },
-  image: { type: imageSchema, required: true },
-  alt: { type: String, required: true, minlength: 2, maxlength: 50 },
 
-  shoppingCart: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  quantity: { type: Number, required: true }, 
-  sold: { type: Number, default: 0 },  
-
-  createdAt: { type: Date, required: false, default: new Date() },
-  userId: { type: String, required: true },
-  barcode: { type: Number, required: true, min: 1_000_000, max: 9_999_999 },
+const VariantSchema = new Schema<IVariant>({
+  size: { type: String, required: true },
+  quantity: { type: Number, required: true },
+  price: { type: Number, required: true },
 });
 
-export default productSchema;
+const ProductSchema = new Schema<IProduct>({
+  barcode: { type: Number, required: true },
+  createdAt: { type: Date, default: Date.now },
+  shoppingCart: [{ type: String }],
+  sold: { type: Number, required: false, default: 0 },
+  userId: { type: String, required: true },
+  title: { type: String, required: true },
+  subtitle: { type: String, required: true },
+  description: { type: String, required: true },
+  image: {
+    url: { type: String, required: true },
+  },
+  alt: { type: String, required: true },
+  variants: [VariantSchema], // Array of embedded documents
+});
+
+export default ProductSchema;

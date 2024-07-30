@@ -1,3 +1,5 @@
+import { IProductInput } from "../@types/@types";
+
 const users = [
   {
     isAdmin: true,
@@ -60,49 +62,48 @@ const users = [
   },
 
 ];
-const products = [
+const products: IProductInput[] = [
   {
-    title: "a wonderful new card",
+    title: "product 1",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    price: 111,
-    quantity: 3,
-    sold: 0,
     image: {
-      url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
-      
+      url: "http://localhost:8080/uploads/1721682930684-cards2.png",
     },
     alt: "image of something",
+    variants: [
+      { size: "S", quantity: 40, price: 222 },
+      { size: "M", quantity: 35, price: 333 },
+      { size: "L", quantity: 20, price: 444 },
+    ],
   },
-
   {
-    title: "a wonderful new card vs2",
+    title: "product 2",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    price: 222,
-    quantity: 4,
-    sold: 0,
     image: {
-      url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
-      
+      url: "http://localhost:8080/uploads/1721159951196-cards1.png",
     },
     alt: "image of something",
+    variants: [
+      { size: "S", quantity: 40, price: 222 },
+      { size: "M", quantity: 15, price: 333 },
+      { size: "L", quantity: 20, price: 444 },
+    ],
   },
-
   {
-    title: "a wonderful new card vs3",
+    title: "product 3",
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
-    price: 333,
-    quantity: 5,
-    sold: 2,
     image: {
-      url: "https://img.izismile.com/img/img13/20201030/640/you_have_never_seen_something_like_this_640_36.jpg",
-      
+      url: "http://localhost:8080/uploads/1721247242080-328759643_734682074786451_3363899805198390679_n.jpg",
     },
     alt: "image of something",
+    variants: [
+      { size: "S", quantity: 40, price: 222 },
+      { size: "M", quantity: 45, price: 333 },
+      { size: "L", quantity: 20, price: 444 },
+    ],
   },
-
-
 ];
 export { users , products};
