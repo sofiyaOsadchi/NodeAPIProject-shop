@@ -20,6 +20,7 @@ export const analyticsService = {
                 orderNumber: order.orderNumber,
                 orderId: order._id,
                 userId: order.userId._id, // הוספת השדה name של המשתמש
+               /*  userId: order.userId.name, // הוספת השדה name של המשתמש */
                 products: order.products.map(product => ({
                     productId: product.productId._id,
                     title: product.title, // שימוש ב- productId כדי לקבל את ה-title

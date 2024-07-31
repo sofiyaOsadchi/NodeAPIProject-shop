@@ -7,3 +7,5 @@ export const validateUser = validateSchema(userSchema);
 export const validateLogin = validateSchema(loginSchema);
 export const validateProduct = validateSchema(productSchema);
 export const validateUpdateUser = validateSchema(updateUserSchema);
+/* export const validateMessage = validateSchema(joiMessageSchema);
+ */
