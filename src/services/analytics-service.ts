@@ -6,26 +6,37 @@ import BizCardsError from "../errors/BizCardsError";
 export const analyticsService = {
 
 
-        getAllOrders: async () => {
-            const orders = await Order.find().populate({
-                path: 'userId',
-                select: 'name', // אכלוס השדה name מתוך userId
-            }).populate('products.productId');
-            return orders.map(order => ({
+    // get all orders
+    getAllOrders: async () => {
+        const orders = await Order.find().populate({
+            path: 'userId',
+            select: 'name', // אכלוס השדה name מתוך userId
+        }).populate('products.productId');
+
+        const count = await Order.countDocuments(); // ספירת כמות ההזמנות
+
+        return {
+            orders: orders.map(order => ({
+                orderNumber: order.orderNumber,
                 orderId: order._id,
-                userId: order.userId._id,
+                userId: order.userId._id, // הוספת השדה name של המשתמש
                 products: order.products.map(product => ({
                     productId: product.productId._id,
-                    title: product.title,
-                    barcode: product.barcode,
+                    title: product.title, // שימוש ב- productId כדי לקבל את ה-title
+                    barcode: product.barcode, // שימוש ב- productId כדי לקבל את ה-barcode
                     quantity: product.quantity,
                     price: product.price,
+                    size: product.size,
                 })),
                 totalAmount: order.totalAmount,
                 status: order.status,
                 createdAt: order.createdAt,
-            }));
-        },
+
+            })),
+            count // הוספת כמות ההזמנות לפלט
+        };
+    },
+
 
     getSalesByDate: async (startDate: Date, endDate: Date) => {
 

@@ -1,7 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { analyticsService } from "../services/analytics-service";
 import { isAdmin } from "../middleware/is-admin";
-import { SalesByDateQuery } from "../@types/@types";
 import BizCardsError from "../errors/BizCardsError";
 
 const router = Router();

@@ -35,7 +35,7 @@ export const orderService = {
                 userId,
                 products: orderProducts,
                 totalAmount,
-                orderNumber: Date.now().toString(),
+                orderNumber: `ORD-${Date.now().toString()}`,
             });
 
             return await order.save();
