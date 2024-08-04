@@ -68,7 +68,7 @@ const products: IProductInput[] = [
     subtitle: "a test value for this card",
     description: "a test value for new card\na test value for new card\n",
     image: {
-      url: "http://localhost:8080/uploads/1721682930684-cards2.png",
+      url: "http://localhost:8080/uploads/Untitled design (16).png",
     },
     alt: "image of something",
     variants: [
