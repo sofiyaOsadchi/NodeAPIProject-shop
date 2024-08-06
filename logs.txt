@@ -2,3 +2,22 @@ hi
 Database Connected
 DB_CONNECTION_STRING is not defined in your .env file
 hi
+hi
+7578609
+5918888
+3054036
+6715226
+3922985
+4144648
+4471348
+1257413
+8906672
+Database Connected
+hi
+3 or more users already exist. Skipping user initialization.
+3 or more cards already exist. Skipping card initialization.
+Database Connected
+hi
+3 or more users already exist. Skipping user initialization.
+3 or more cards already exist. Skipping card initialization.
+Database Connected
