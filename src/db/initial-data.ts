@@ -68,7 +68,7 @@ const products: IProductInput[] = [
     subtitle: "Elegant and Versatile",
     description: "A black ribbed sweater that offers both elegance and versatility. Perfect for any occasion.",
     image: {
-      url: "http://localhost:8080/uploads/2.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/2.png",
     },
     alt: "Black Ribbed Sweater",
     variants: [
@@ -82,7 +82,7 @@ const products: IProductInput[] = [
     subtitle: "Classic and Timeless",
     description: "A classic black blazer that never goes out of style. Ideal for both formal and casual occasions.",
     image: {
-      url: "http://localhost:8080/uploads/3.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/3.png",
     },
     alt: "Black Blazer",
     variants: [
@@ -96,7 +96,7 @@ const products: IProductInput[] = [
     subtitle: "Stylish and Modern",
     description: "A stylish checked blazer that adds a modern touch to any outfit. Perfect for making a statement.",
     image: {
-      url: "http://localhost:8080/uploads/4.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/4.png",
     },
     alt: "Checked Blazer",
     variants: [
@@ -110,7 +110,7 @@ const products: IProductInput[] = [
     subtitle: "Comfort and Style",
     description: "An oversized blazer that combines comfort and style. Perfect for a relaxed yet chic look.",
     image: {
-      url: "http://localhost:8080/uploads/5.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/5.png",
     },
     alt: "Oversized Blazer",
     variants: [
@@ -124,7 +124,7 @@ const products: IProductInput[] = [
     subtitle: "Sleek and Sophisticated",
     description: "A sleek and sophisticated beige blazer. Perfect for adding a touch of elegance to any outfit.",
     image: {
-      url: "http://localhost:8080/uploads/6.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/6.png",
     },
     alt: "Beige Blazer",
     variants: [
@@ -138,7 +138,7 @@ const products: IProductInput[] = [
     subtitle: "Bold and Trendy",
     description: "A fashionable blazer that is both bold and trendy. Perfect for standing out in style.",
     image: {
-      url: "http://localhost:8080/uploads/7.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/7.png",
     },
     alt: "Fashionable Blazer",
     variants: [
@@ -152,7 +152,7 @@ const products: IProductInput[] = [
     subtitle: "Crisp and Clean",
     description: "A crisp and clean white blouse. Ideal for both professional and casual settings.",
     image: {
-      url: "http://localhost:8080/uploads/8.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/8.png",
     },
     alt: "White Blouse",
     variants: [
@@ -166,7 +166,7 @@ const products: IProductInput[] = [
     subtitle: "Chic and Modern",
     description: "An elegant beige blazer that is both chic and modern. Perfect for elevating any look.",
     image: {
-      url: "http://localhost:8080/uploads/9.png",
+      url: "https://nodeapiproject-shop.onrender.com/uploads/9.png",
     },
     alt: "Elegant Beige Blazer",
     variants: [
@@ -180,7 +180,7 @@ const products: IProductInput[] = [
     subtitle: "Elegant and Timeless",
     description: "A sophisticated blazer that is both elegant and timeless. Perfect for any occasion.",
     image: {
-      url: "http://localhost:8080/uploads/10.png",  
+      url: "https://nodeapiproject-shop.onrender.com/uploads/10.png",  
     },
     alt: "Sophisticated Blazer",
     variants: [
