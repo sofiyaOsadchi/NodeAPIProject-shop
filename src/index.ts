@@ -25,8 +25,8 @@ console.log(process.env.JWT_SECRET);
 //middleware chain:
 app.use(json());
 app.use(morgan("dev"));
-app.use(cors({ origin: ["http://localhost:5173", "http://localhost:5172"] }));
-//http://localhost:8080/api/v1/users
+app.use(cors({ origin: ["*"] }));
+//http://localhost:8080/api/v1/users  
 
 
 
