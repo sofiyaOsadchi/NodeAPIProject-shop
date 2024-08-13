@@ -1,7 +1,7 @@
-import { model } from 'mongoose';
-import { IPage } from '../../@types/@types';
-import { PageSchema } from '../schemas/page-schema';
+import mongoose from "mongoose";
+import PageSchema from "../schemas/page-schema";
 
-const Page = model<IPage>('Page', PageSchema);
+
+const Page = mongoose.model("Page", PageSchema);
 
 export default Page;
