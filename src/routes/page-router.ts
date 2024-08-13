@@ -1,47 +1,87 @@
+import { Router } from "express";
+import { pageService } from "../services/page-service";
+import { validateToken } from "../middleware/validate-token";
+import { isAdmin } from "../middleware/is-admin";
+import upload from "../middleware/uploads";
 
-import express from 'express';
-import { createPage, deletePage, getPages, updatePage } from '../services/page-service';
-import { IPage } from '../@types/@types';
-
-const router = express.Router();
+const router = Router();
 
 // יצירת עמוד חדש
-router.post('/', async (req, res) => {
+router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     try {
-        const page = await createPage(req.body);
-        res.status(201).json(page);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to create page' });
+        if (!req.payload) {
+            throw new Error("Invalid token");
+        }
+
+        const imageUrl = req.file ? `http://localhost:8080/uploads/${req.file.filename}` : null;
+
+        const pageData = {
+            ...req.body,
+            components: JSON.parse(req.body.components || '[]').map((component: any) => ({
+                ...component,
+                image: component.type === 'image' && imageUrl ? { url: imageUrl } : undefined,
+            })),
+        };
+
+        const result = await pageService.createPage(pageData, req.payload._id);
+        res.status(201).json(result);
+    } catch (e) {
+        next(e);
     }
 });
 
-// קריאת כל העמודים
-router.get('/', async (req, res) => {
+// עדכון עמוד קיים
+router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
     try {
-        const pages = await getPages();
-        res.status(200).json(pages);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to get pages' });
+        if (!req.payload) {
+            throw new Error("Invalid token");
+        }
+
+        const imageUrl = req.file ? `http://localhost:8080/uploads/${req.file.filename}` : req.body.imageUrl;
+
+        const pageData = {
+            ...req.body,
+            components: JSON.parse(req.body.components || '[]').map((component: any) => ({
+                ...component,
+                image: component.type === 'image' && imageUrl ? { url: imageUrl } : undefined,
+            })),
+        };
+
+        const updatedPage = await pageService.updatePage(req.params.id, pageData);
+        res.json(updatedPage);
+    } catch (e) {
+        next(e);
     }
 });
 
-// עדכון עמוד לפי ID
-router.put('/:id', async (req, res) => {
+// מחיקת עמוד
+router.delete("/:id", ...isAdmin, async (req, res, next) => {
     try {
-        const page = await updatePage(req.params.id, req.body as Partial<IPage>);
-        res.status(200).json(page);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to update page' });
+        const pageId = req.params.id;
+        const deletedPage = await pageService.deletePage(pageId);
+        res.json({ message: "Page deleted successfully", page: deletedPage });
+    } catch (e) {
+        next(e);
     }
 });
 
-// מחיקת עמוד לפי ID
-router.delete('/:id', async (req, res) => {
+// קבלת כל העמודים
+router.get("/", async (req, res, next) => {
     try {
-        const page = await deletePage(req.params.id);
-        res.status(200).json(page);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to delete page' });
+        const pages = await pageService.getPages();
+        res.json(pages);
+    } catch (e) {
+        next(e);
+    }
+});
+
+// קבלת עמוד לפי ID
+router.get("/:id", async (req, res, next) => {
+    try {
+        const page = await pageService.getPage(req.params.id);
+        res.json(page);
+    } catch (e) {
+        next(e);
     }
 });
 

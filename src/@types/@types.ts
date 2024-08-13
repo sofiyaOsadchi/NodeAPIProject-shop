@@ -150,12 +150,11 @@ export type IMessage = {
   createdAt?: Date;
 }
 
-
-// src/types/pageTypes.ts
-
 export type IPageComponent = {
   type: 'banner' | 'image' | 'title' | 'text'; // סוג הרכיב
   content: string; // תוכן הרכיב - טקסט או URL לתמונה
+  image?: IImage; // מבנה של תמונה
+  alt?: string; // תיאור התמונה (alt) מחוץ לשדה התמונה כדי לשמור על עקביות עם שאר המערכת
   styles?: {
     color?: string;
     fontSize?: string;

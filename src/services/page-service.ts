@@ -2,19 +2,33 @@ import { IPage } from "../@types/@types";
 import Page from "../db/models/page-model";
 
 
-export const createPage = async (pageData: IPage): Promise<IPage> => {
-    const newPage = new Page(pageData);
-    return await newPage.save();
-};
+export const pageService = {
+    // יצירת עמוד חדש
+    createPage: async (data: IPage, userId: string) => {
+        const page = new Page({
+            ...data,
+            userId,
+            createdAt: new Date(),
+        });
+        return page.save();
+    },
 
-export const getPages = async (): Promise<IPage[]> => {
-    return await Page.find();
-};
+    // עדכון עמוד קיים
+    updatePage: async (id: string, data: IPage) => {
+        const page = await Page.findByIdAndUpdate(id, data, { new: true });
+        if (!page) throw new Error("Page not found");
+        return page;
+    },
 
-export const updatePage = async (id: string, pageData: Partial<IPage>): Promise<IPage | null> => {
-    return await Page.findByIdAndUpdate(id, pageData, { new: true });
-};
+    // קבלת כל העמודים
+    getPages: async () => Page.find(),
 
-export const deletePage = async (id: string): Promise<IPage | null> => {
-    return await Page.findByIdAndDelete(id);
+    // קבלת עמוד לפי ID
+    getPage: async (id: string) => Page.findById(id),
+
+    // מחיקת עמוד
+    deletePage: async (id: string) => {
+        const page = await Page.findByIdAndDelete(id);
+        return page;
+    },
 };

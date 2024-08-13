@@ -16,7 +16,7 @@ import { orderRouter } from "./routes/order-router";
 import path from "path";
 import { cartRouter } from "./routes/cart-router";
 import { messageRouter } from "./routes/message-router";
-import pageRoutes from './routes/page-router';
+import pageRoute from './routes/page-router';
 
 
 
@@ -39,7 +39,7 @@ app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/cart", cartRouter);  // הוספת הנתיב לעגלת הקניות
-app.use('/api/pages', pageRoutes);
+app.use('/api/pages', pageRoute);
 
 app.use(express.static("public"));
 app.use(errorHandler);
