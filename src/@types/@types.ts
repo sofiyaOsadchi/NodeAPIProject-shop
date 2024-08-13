@@ -149,3 +149,26 @@ export type IMessage = {
   message: string;
   createdAt?: Date;
 }
+
+
+// src/types/pageTypes.ts
+
+export type IPageComponent = {
+  type: 'banner' | 'image' | 'title' | 'text'; // סוג הרכיב
+  content: string; // תוכן הרכיב - טקסט או URL לתמונה
+  styles?: {
+    color?: string;
+    fontSize?: string;
+  };
+  position?: {
+    x: number; // מיקום אופקי
+    y: number; // מיקום אנכי
+  };
+};
+
+export type IPage = {
+  _id?: string;
+  title: string;
+  components: IPageComponent[];
+  createdAt: Date;
+};
