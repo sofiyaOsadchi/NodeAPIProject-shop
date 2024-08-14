@@ -16,7 +16,7 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-    const imageUrl = `http://localhost:8080/uploads/${req.file.filename}`;
+    const imageUrl = `https://nodeapiproject-shop.onrender.com/${req.file.filename}`;
     res.json({ imageUrl })
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
     const result = await productService.createProduct(productData, req.payload._id);
@@ -32,7 +32,7 @@ router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) =>
     if (!req.payload) {
       throw new Error("Invalid token");
     }
-    const imageUrl = req.file ? `http://localhost:8080/uploads/${req.file.filename}` : req.body.imageUrl;
+    const imageUrl = req.file ? `https://nodeapiproject-shop.onrender.com/${req.file.filename}` : req.body.imageUrl;
     const productData = { ...req.body, image: { url: imageUrl, alt: req.body.alt } };
     const updatedProduct = await productService.updateProduct(req.params.id, productData);
     res.json(updatedProduct);
