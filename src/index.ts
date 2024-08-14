@@ -39,7 +39,7 @@ app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/cart", cartRouter);  // הוספת הנתיב לעגלת הקניות
-app.use('/api/pages', pageRoute);
+app.use('/api/v1/pages', pageRoute);
 
 app.use(express.static("public"));
 app.use(errorHandler);

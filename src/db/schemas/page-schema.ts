@@ -1,16 +1,17 @@
 import { Schema } from "mongoose";
 import { IPage, IPageComponent, IImage } from "../../@types/@types";
+import imageSchema from "./image-schema";
 
-// סכמה לתמונה
+/* // סכמה לתמונה
 const ImageSchema = new Schema<IImage>({
     url: { type: String, required: true },
-});
+}); */
 
 // סכמה עבור רכיב בעמוד
 const PageComponentSchema = new Schema<IPageComponent>({
     type: { type: String, required: true },
     content: { type: String }, // תוכן יכול להיות טקסט, URL לתמונה, וכו'
-    image: ImageSchema, // מבנה של תמונה
+    image: imageSchema, // מבנה של תמונה
     alt: { type: String }, // תיאור התמונה (alt) מחוץ לשדה התמונה
     styles: {
         color: { type: String },
