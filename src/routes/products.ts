@@ -9,7 +9,7 @@ import upload from "../middleware/uploads";
 const router = Router();
 
 
-// Add product
+// Add products
 router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
   try {
     console.log("Payload:", req.payload); // הוספת דיבאג
