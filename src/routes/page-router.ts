@@ -37,7 +37,7 @@ router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) =>
             throw new Error("Invalid token");
         }
 
-        const imageUrl = req.file ? `http://localhost:8080/uploads/${req.file.filename}` : req.body.imageUrl;
+        const imageUrl = req.file ? `https://nodeapiproject-shop.onrender.com/uploads/${req.file.filename}` : req.body.imageUrl;
 
         const pageData = {
             ...req.body,
