@@ -8,7 +8,7 @@ import { IPage, IPageComponent } from "../@types/@types";
 const router = Router();
 
 // יצירת עמוד חדש
-/* router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     try {
         if (!req.payload) {
             throw new Error("Invalid token");
@@ -30,10 +30,10 @@ const router = Router();
         next(e);
     }
 });
- */
+ 
 
 // יצירת עמוד חדש
-router.post("/", isAdmin, upload.array("images"), async (req, res, next) => {
+/* router.post("/", isAdmin, upload.array("images"), async (req, res, next) => {
     try {
         if (!req.payload) {
             throw new Error("Invalid token");
@@ -66,7 +66,7 @@ router.post("/", isAdmin, upload.array("images"), async (req, res, next) => {
         console.error("Error during page creation:", e); // לוגים לשגיאה
         next(e);
     }
-});
+}); */
 
 
 
