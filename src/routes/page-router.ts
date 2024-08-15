@@ -39,14 +39,16 @@ router.post("/", isAdmin, upload.array("images"), async (req, res, next) => {
             throw new Error("Invalid token");
         }
 
-        // Map the uploaded files to their respective URLs
+        // הוספת לוגים לבדיקה
+        console.log("Received files:", req.files);
+        console.log("Received body:", req.body);
+
         const images = Array.isArray(req.files)
             ? req.files.map((file: Express.Multer.File) => ({
                 url: `https://nodeapiproject-shop.onrender.com/uploads/${file.filename}`,
             }))
             : [];
 
-        // Map the components to include the correct image URLs
         const pageData: IPage = {
             ...req.body,
             components: JSON.parse(req.body.components || '[]').map((component: IPageComponent, index: number) => ({
@@ -56,12 +58,16 @@ router.post("/", isAdmin, upload.array("images"), async (req, res, next) => {
             createdAt: new Date(),
         };
 
+        console.log("Page data to be saved:", pageData); // לוגים לבדיקה
+
         const result = await pageService.createPage(pageData, req.payload._id);
         res.status(201).json(result);
     } catch (e) {
+        console.error("Error during page creation:", e); // לוגים לשגיאה
         next(e);
     }
 });
+
 
 
 // עדכון עמוד קיים
