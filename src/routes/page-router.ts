@@ -3,11 +3,12 @@ import { pageService } from "../services/page-service";
 import { validateToken } from "../middleware/validate-token";
 import { isAdmin } from "../middleware/is-admin";
 import upload from "../middleware/uploads";
+import { IPage, IPageComponent } from "../@types/@types";
 
 const router = Router();
 
 // יצירת עמוד חדש
-router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+/* router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
     try {
         if (!req.payload) {
             throw new Error("Invalid token");
@@ -29,6 +30,39 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
         next(e);
     }
 });
+ */
+
+// יצירת עמוד חדש
+router.post("/", isAdmin, upload.array("images"), async (req, res, next) => {
+    try {
+        if (!req.payload) {
+            throw new Error("Invalid token");
+        }
+
+        // Map the uploaded files to their respective URLs
+        const images = Array.isArray(req.files)
+            ? req.files.map((file: Express.Multer.File) => ({
+                url: `https://nodeapiproject-shop.onrender.com/uploads/${file.filename}`,
+            }))
+            : [];
+
+        // Map the components to include the correct image URLs
+        const pageData: IPage = {
+            ...req.body,
+            components: JSON.parse(req.body.components || '[]').map((component: IPageComponent, index: number) => ({
+                ...component,
+                image: component.type === 'image' && images[index] ? images[index] : undefined,
+            })),
+            createdAt: new Date(),
+        };
+
+        const result = await pageService.createPage(pageData, req.payload._id);
+        res.status(201).json(result);
+    } catch (e) {
+        next(e);
+    }
+});
+
 
 // עדכון עמוד קיים
 router.put("/:id", ...isAdmin, upload.single("image"), async (req, res, next) => {
