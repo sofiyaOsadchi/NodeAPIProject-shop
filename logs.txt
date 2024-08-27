@@ -187,3 +187,16 @@ hi
 3 or more users already exist. Skipping user initialization.
 Database Connected
 3 or more cards already exist. Skipping card initialization.
+hi
+3 or more users already exist. Skipping user initialization.
+Product already exists: Black Ribbed Sweater
+4791733
+Product already exists: Checked Blazer
+Product already exists: Oversized Blazer
+Product already exists: Beige Blazer
+Product already exists: Fashionable Blazer
+Product already exists: White Blouse
+Product already exists: Sophisticated Blazer
+Database Connected
+Product already exists: Elegant Beige Blazer
+hi
