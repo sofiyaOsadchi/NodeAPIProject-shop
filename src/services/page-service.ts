@@ -1,7 +1,6 @@
 import { IPage } from "../@types/@types";
 import Page from "../db/models/page-model";
 
-
 export const pageService = {
     // יצירת עמוד חדש
     createPage: async (data: IPage, userId: string) => {

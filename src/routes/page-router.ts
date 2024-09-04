@@ -7,20 +7,17 @@ import { IPage, IPageComponent } from "../@types/@types";
 
 const router = Router();
 
-// יצירת עמוד חדש
-router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
+router.post("/", validateToken, isAdmin, async (req, res, next) => {
     try {
         if (!req.payload) {
             throw new Error("Invalid token");
         }
 
-        const imageUrl = req.file ? `https://nodeapiproject-shop.onrender.com/uploads/${req.file.filename}` : null;
-
         const pageData = {
             ...req.body,
-            components: JSON.parse(req.body.components || '[]').map((component: any) => ({
+            components: req.body.components.map((component: any) => ({
                 ...component,
-                image: component.type === 'image' && imageUrl ? { url: imageUrl } : undefined,
+                image: component.type === 'image' ? { url: component.image.url } : undefined,
             })),
         };
 
@@ -30,6 +27,7 @@ router.post("/", ...isAdmin, upload.single("image"), async (req, res, next) => {
         next(e);
     }
 });
+
  
 
 // יצירת עמוד חדש
