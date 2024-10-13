@@ -4,12 +4,12 @@ const users = [
   {
     isAdmin: true,
     name: {
-      first: "TomerBu",
+      first: "admin",
       middle: "",
-      last: "Bu",
+      last: "orime",
     },
     phone: "0507123012",
-    email: "tomerbu@gmail.com",
+    email: "admin@gmail.com",
     password: "Abc!123Abc",
     address: {
       state: "IL",
