@@ -50,7 +50,7 @@ router.post('/add', validateAddToCart, async (req, res, next) => {
     }
 });
 
-router.post('/bulk-add', validateToken, async (req, res, next) => {
+/* router.post('/bulk-add', validateToken, async (req, res, next) => {
     try {
         const userId = req.payload._id;
         const { items } = req.body; // המוצרים שמגיעים מהעגלה של המשתמש האורח
@@ -60,7 +60,7 @@ router.post('/bulk-add', validateToken, async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-});
+}); */
 
 
 router.post('/remove', validateToken, async (req, res, next) => {
