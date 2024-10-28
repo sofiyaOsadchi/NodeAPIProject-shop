@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import BizCardsError from "../errors/BizCardsError";
-import { validateToken } from "./validate-token";
 
 // Middleware to validate product and cart ownership
 const _validateAddToCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userId = req.payload._id;
         const { productId, variantId, quantity, size } = req.body;
 
-        if (!userId) {
-            return next(new BizCardsError(401, "User not authenticated"));
+        // אם המשתמש לא מחובר, אנחנו מאפשרים המשך כדי לטפל בעגלת אורח
+        if (!req.payload || !req.payload._id) {
+            console.log("User not authenticated, proceeding as a guest.");
+            return next(); // ממשיכים כי העגלה תישמר בלוקל סטורג'
         }
 
         next();
@@ -18,4 +18,5 @@ const _validateAddToCart = async (req: Request, res: Response, next: NextFunctio
     }
 };
 
-export const validateAddToCart = [validateToken, _validateAddToCart];
+// הסרת validateToken מהמעלית כדי לאפשר גם לאורחים גישה לפונקציה
+export const validateAddToCart = [_validateAddToCart];

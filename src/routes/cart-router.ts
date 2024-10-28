@@ -20,7 +20,7 @@ router.get('/', validateToken, async (req, res, next) => {
 });
 
 
-router.post('/add', ...validateAddToCart, async (req, res, next) => {
+/* router.post('/add', ...validateAddToCart, async (req, res, next) => {
     try {
         const { productId, variantId, quantity, size } = req.body;
         const userId = req.payload._id;
@@ -29,7 +29,27 @@ router.post('/add', ...validateAddToCart, async (req, res, next) => {
     } catch (e) {
         next(e);
     }
+}); */
+
+router.post('/add', validateAddToCart, async (req, res, next) => {
+    try {
+        const { productId, variantId, quantity, size } = req.body;
+
+        // בדיקה אם המשתמש מחובר
+        if (!req.payload || !req.payload._id) {
+            console.log("User not authenticated, handling guest cart.");
+            // עבור אורחים, שולחים תגובה שתטופל בצד הקדמי (שמירה בלוקל סטורג')
+            return res.status(200).json({ message: "Guest user - handle in local storage" });
+        }
+
+        const userId = req.payload._id;
+        const cart = await cartService.addProductToCart(userId, productId, variantId, quantity, size);
+        res.json(cart);
+    } catch (e) {
+        next(e);
+    }
 });
+
 
 router.post('/remove', validateToken, async (req, res, next) => {
     try {

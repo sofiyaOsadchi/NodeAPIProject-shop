@@ -14,8 +14,9 @@ const cartItemSchema = new Schema({
 });
 
 const cartSchema = new Schema<ICart>({
-    userId: { type: String, required: true },
+    userId: { type: String }, // הפיכת userId לאופציונלי
     items: [cartItemSchema],
+    isGuest: { type: Boolean, default: false }, // הוספת שדה לזיהוי משתמש אורח
 });
 
 export default cartSchema;

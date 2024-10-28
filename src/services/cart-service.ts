@@ -34,9 +34,10 @@ export const cartService = {
         variantId: string,
         quantity: number,
         size: string,
-
     ): Promise<ICart | null> => {
+        // פונקציה זו תישאר כפי שהיא ותטפל רק במשתמשים רשומים
         console.log(`Starting addProductToCart for user: ${userId} with product: ${productId} and variant: ${variantId}`);
+
         let cart = await CartModel.findOne({ userId });
 
         const product = await Product.findById(productId);
@@ -93,6 +94,7 @@ export const cartService = {
         console.log(`Cart saved successfully for userId: ${userId}`);
         return cart;
     },
+
     removeProductFromCart: async (userId: string, variantId: string): Promise<ICart | null> => {
         const cart = await CartModel.findOne({ userId });
 
