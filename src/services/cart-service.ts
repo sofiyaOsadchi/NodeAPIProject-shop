@@ -1,4 +1,4 @@
-import { ICart, ICartWithTotals } from "../@types/@types";
+import { ICart, ICartWithTotals, ICartItem } from "../@types/@types";
 import CartModel from "../db/models/cart-model";
 import Product from "../db/models/product-model";
 import BizCardsError from "../errors/BizCardsError";
@@ -27,7 +27,6 @@ export const cartService = {
         }
     },
 
-
     addProductToCart: async (
         userId: string,
         productId: string,
@@ -35,7 +34,6 @@ export const cartService = {
         quantity: number,
         size: string,
     ): Promise<ICart | null> => {
-        // פונקציה זו תישאר כפי שהיא ותטפל רק במשתמשים רשומים
         console.log(`Starting addProductToCart for user: ${userId} with product: ${productId} and variant: ${variantId}`);
 
         let cart = await CartModel.findOne({ userId });
@@ -95,6 +93,56 @@ export const cartService = {
         return cart;
     },
 
+    bulkAddToCart: async (
+        userId: string,
+        items: ICartItem[]
+    ): Promise<ICart | null> => {
+        console.log(`Starting bulkAddToCart for user: ${userId}`);
+
+        let cart = await CartModel.findOne({ userId });
+
+        if (!cart) {
+            console.log(`No cart found for userId: ${userId}, creating new cart.`);
+            cart = new CartModel({
+                userId,
+                items: items.map(item => ({
+                    productId: item.productId,
+                    variantId: item.variantId,
+                    quantity: item.quantity,
+                    size: item.size,
+                    title: item.title,
+                    price: item.price,
+                    image: item.image,
+                })),
+            });
+        } else {
+            items.forEach(item => {
+                const itemIndex = cart.items.findIndex(
+                    cartItem => cartItem.productId === item.productId && cartItem.variantId === item.variantId && cartItem.size === item.size
+                );
+
+                if (itemIndex > -1) {
+                    console.log(`Item found in cart, updating quantity for userId: ${userId}, productId: ${item.productId}, variantId: ${item.variantId}`);
+                    cart.items[itemIndex].quantity += item.quantity;
+                } else {
+                    console.log(`Item not found in cart, adding new item for userId: ${userId}, productId: ${item.productId}, variantId: ${item.variantId}`);
+                    cart.items.push({
+                        productId: item.productId,
+                        variantId: item.variantId,
+                        quantity: item.quantity,
+                        size: item.size,
+                        title: item.title,
+                        price: item.price,
+                        image: item.image,
+                    });
+                }
+            });
+        }
+
+        await cart.save();
+        console.log(`Cart saved successfully for userId: ${userId}`);
+        return cart;
+    },
 
     removeProductFromCart: async (userId: string, variantId: string): Promise<ICart | null> => {
         const cart = await CartModel.findOne({ userId });
