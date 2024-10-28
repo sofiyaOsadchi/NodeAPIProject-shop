@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import BizCardsError from "../errors/BizCardsError";
 
 // Middleware to validate product and cart ownership
 const _validateAddToCart = async (req: Request, res: Response, next: NextFunction) => {
