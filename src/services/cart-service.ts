@@ -95,6 +95,7 @@ export const cartService = {
         return cart;
     },
 
+
     removeProductFromCart: async (userId: string, variantId: string): Promise<ICart | null> => {
         const cart = await CartModel.findOne({ userId });
 

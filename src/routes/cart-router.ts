@@ -51,6 +51,7 @@ router.post('/add', validateAddToCart, async (req, res, next) => {
 });
 
 
+
 router.post('/remove', validateToken, async (req, res, next) => {
     try {
         const userId = req.payload._id;
